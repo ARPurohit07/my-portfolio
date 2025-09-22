@@ -8,26 +8,25 @@ const StarfieldBackground = () => {
     const currentMount = mountRef.current;
     if (!currentMount) return;
 
+    // --- Core Three.js Setup ---
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
-      window.innerWidth / window.innerHeight,
+      currentMount.clientWidth / currentMount.clientHeight,
       0.1,
       1000
     );
     const renderer = new THREE.WebGLRenderer({
       canvas: currentMount,
       alpha: true,
+      antialias: true,
     });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
 
-    // --- OPTIMIZATIONS ---
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Cap at 2 for performance
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    // --- Background Starfield Generation ---
+    // --- Starfield Generation ---
     const starfieldGeometry = new THREE.BufferGeometry();
-    const starfieldCount = 3000; // REDUCED from 5000
+    const starfieldCount = 3000;
     const starfieldPositions = new Float32Array(starfieldCount * 3);
     for (let i = 0; i < starfieldCount; i++) {
       starfieldPositions[i * 3 + 0] = (Math.random() - 0.5) * 200;
@@ -45,6 +44,7 @@ const StarfieldBackground = () => {
     const starfield = new THREE.Points(starfieldGeometry, starfieldMaterial);
     scene.add(starfield);
 
+    // --- Animation Loop ---
     let animationFrameId;
     const clock = new THREE.Clock();
     const animate = () => {
@@ -55,24 +55,32 @@ const StarfieldBackground = () => {
     };
     animate();
 
+    // --- THE ROBUST RESIZE FIX ---
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      // Update camera
+      camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      // Update renderer
+      renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Force an immediate re-render after resizing
+      renderer.render(scene, camera);
     };
     window.addEventListener("resize", handleResize);
 
+    // --- Cleanup ---
     return () => {
       window.removeEventListener("resize", handleResize);
       window.cancelAnimationFrame(animationFrameId);
+      renderer.dispose();
       starfieldGeometry.dispose();
       starfieldMaterial.dispose();
-      renderer.dispose();
     };
   }, []);
 
   return <canvas ref={mountRef} className="starfield-canvas"></canvas>;
 };
 
-// --- OPTIMIZATION ---
 export default React.memo(StarfieldBackground);

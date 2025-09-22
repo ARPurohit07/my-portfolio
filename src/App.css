@@ -1,6 +1,6 @@
-/* --- GLOBAL RESET & BOX-SIZING --- */
+/* --- GLOBAL RESET & BOX-SIZING (THE DEFINITIVE FIX) --- */
+/* This is the most important rule. It makes layout math intuitive and prevents overflow bugs. */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
 html {
     box-sizing: border-box;
 }
@@ -17,6 +17,7 @@ body {
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; /* Failsafe to prevent any horizontal scrolling */
 }
 
 html {
@@ -180,8 +181,6 @@ html {
     font-size: 1.5rem;
     font-weight: 600;
 }
-
-/* --- NEW, IMPROVED CV BUTTON FOR MOBILE --- */
 .cv-button-mobile {
     display: inline-flex;
     align-items: center;
