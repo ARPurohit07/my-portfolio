@@ -1,86 +1,48 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const StarfieldBackground = () => {
-  const mountRef = useRef(null);
+function StarfieldPoints() {
+  const pointsRef = useRef();
 
-  useEffect(() => {
-    const currentMount = mountRef.current;
-    if (!currentMount) return;
+  useFrame((state, delta) => {
+    pointsRef.current.rotation.y += delta * 0.01;
+  });
 
-    // --- Core Three.js Setup ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      currentMount.clientWidth / currentMount.clientHeight,
-      0.1,
-      1000
-    );
-    const renderer = new THREE.WebGLRenderer({
-      canvas: currentMount,
-      alpha: true,
-      antialias: true,
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-
-    // --- Starfield Generation ---
-    const starfieldGeometry = new THREE.BufferGeometry();
+  const positions = useMemo(() => {
     const starfieldCount = 3000;
-    const starfieldPositions = new Float32Array(starfieldCount * 3);
+    const positions = new Float32Array(starfieldCount * 3);
     for (let i = 0; i < starfieldCount; i++) {
-      starfieldPositions[i * 3 + 0] = (Math.random() - 0.5) * 200;
-      starfieldPositions[i * 3 + 1] = (Math.random() - 0.5) * 200;
-      starfieldPositions[i * 3 + 2] = (Math.random() - 0.5) * 200;
+      positions[i * 3 + 0] = (Math.random() - 0.5) * 200;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
     }
-    starfieldGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(starfieldPositions, 3)
-    );
-    const starfieldMaterial = new THREE.PointsMaterial({
-      size: 0.1,
-      color: "#aaaaaa",
-    });
-    const starfield = new THREE.Points(starfieldGeometry, starfieldMaterial);
-    scene.add(starfield);
-
-    // --- Animation Loop ---
-    let animationFrameId;
-    const clock = new THREE.Clock();
-    const animate = () => {
-      const elapsedTime = clock.getElapsedTime();
-      starfield.rotation.y = elapsedTime * 0.01;
-      renderer.render(scene, camera);
-      animationFrameId = window.requestAnimationFrame(animate);
-    };
-    animate();
-
-    // --- THE ROBUST RESIZE FIX ---
-    const handleResize = () => {
-      // Update camera
-      camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
-      camera.updateProjectionMatrix();
-
-      // Update renderer
-      renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      // Force an immediate re-render after resizing
-      renderer.render(scene, camera);
-    };
-    window.addEventListener("resize", handleResize);
-
-    // --- Cleanup ---
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      window.cancelAnimationFrame(animationFrameId);
-      renderer.dispose();
-      starfieldGeometry.dispose();
-      starfieldMaterial.dispose();
-    };
+    return positions;
   }, []);
 
-  return <canvas ref={mountRef} className="starfield-canvas"></canvas>;
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={positions.length / 3}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial size={0.1} color="#aaaaaa" />
+    </points>
+  );
+}
+
+const StarfieldBackground = () => {
+  return (
+    <div className="starfield-canvas">
+      <Canvas camera={{ fov: 75 }} dpr={[1, 2]}>
+        <StarfieldPoints />
+      </Canvas>
+    </div>
+  );
 };
 
 export default React.memo(StarfieldBackground);

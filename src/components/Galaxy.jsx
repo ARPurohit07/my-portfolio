@@ -1,34 +1,19 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const Galaxy = () => {
-  const mountRef = useRef(null);
+// This is the component that does the actual rendering and animation
+function GalaxyPoints() {
+  const pointsRef = useRef();
 
-  useEffect(() => {
-    const currentMount = mountRef.current;
-    if (!currentMount) return;
+  // The useFrame hook runs on every single frame, perfect for animation
+  useFrame((state, delta) => {
+    pointsRef.current.rotation.y += delta * 0.05;
+  });
 
-    // --- Core Three.js Setup ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      currentMount.clientWidth / currentMount.clientHeight,
-      0.1,
-      1000
-    );
-    const renderer = new THREE.WebGLRenderer({
-      canvas: currentMount,
-      alpha: true,
-      antialias: true,
-    });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-    camera.position.set(0, 5, 6);
-    camera.lookAt(scene.position);
-
-    // --- Galaxy Generation (no changes here) ---
+  // We use useMemo to calculate the star positions only once
+  const [positions, colors] = useMemo(() => {
     const totalStars = 50000;
-    const galaxyGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(totalStars * 3);
     const colors = new Float32Array(totalStars * 3);
     const bulgeCount = 15000;
@@ -40,7 +25,7 @@ const Galaxy = () => {
     const branches = 5;
     const spin = 1.2;
     for (let i = 0; i < totalStars; i++) {
-      /* ... (star generation logic) ... */ const i3 = i * 3;
+      /* ... (star generation logic is the same) ... */ const i3 = i * 3;
       if (i < bulgeCount) {
         const r = Math.random() * bulgeRadius;
         const theta = Math.random() * Math.PI * 2;
@@ -73,59 +58,48 @@ const Galaxy = () => {
         colors[i3 + 2] = mixedColor.b;
       }
     }
-    galaxyGeometry.setAttribute(
-      "position",
-      new THREE.BufferAttribute(positions, 3)
-    );
-    galaxyGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    const galaxyMaterial = new THREE.PointsMaterial({
-      size: 0.022,
-      sizeAttenuation: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      vertexColors: true,
-    });
-    const galaxy = new THREE.Points(galaxyGeometry, galaxyMaterial);
-    galaxy.rotation.x = -Math.PI / 5;
-    scene.add(galaxy);
 
-    // --- Animation Loop ---
-    let animationFrameId;
-    const clock = new THREE.Clock();
-    const animate = () => {
-      const elapsedTime = clock.getElapsedTime();
-      galaxy.rotation.y = elapsedTime * 0.05;
-      renderer.render(scene, camera);
-      animationFrameId = window.requestAnimationFrame(animate);
-    };
-    animate();
-
-    // --- THE ROBUST RESIZE FIX ---
-    const handleResize = () => {
-      // Update camera
-      camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
-      camera.updateProjectionMatrix();
-
-      // Update renderer
-      renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      // Force an immediate re-render after resizing
-      renderer.render(scene, camera);
-    };
-    window.addEventListener("resize", handleResize);
-
-    // --- Cleanup ---
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      window.cancelAnimationFrame(animationFrameId);
-      renderer.dispose();
-      galaxyGeometry.dispose();
-      galaxyMaterial.dispose();
-    };
+    return [positions, colors];
   }, []);
 
-  return <canvas ref={mountRef} className="galaxy-canvas"></canvas>;
+  return (
+    <points ref={pointsRef} rotation={[-Math.PI / 5, 0, 0]}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={positions.length / 3}
+          array={positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          count={colors.length / 3}
+          array={colors}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.022}
+        sizeAttenuation
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        vertexColors
+      />
+    </points>
+  );
+}
+
+const Galaxy = () => {
+  return (
+    <div className="galaxy-canvas">
+      <Canvas
+        camera={{ position: [0, 5, 6], fov: 75 }}
+        dpr={[1, 2]} /* This caps the pixel ratio for performance */
+      >
+        <GalaxyPoints />
+      </Canvas>
+    </div>
+  );
 };
 
 export default React.memo(Galaxy);
