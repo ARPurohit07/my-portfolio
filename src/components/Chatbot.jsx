@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
+import ReactMarkdown from "react-markdown";
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,6 @@ const Chatbot = () => {
       .catch((error) => console.error("Failed to load chatbot model:", error));
   }, []);
 
-  // This hook listens for the custom event from the header button
   useEffect(() => {
     const handleOpenChat = () => setIsOpen(true);
     window.addEventListener("open-chatbot", handleOpenChat);
@@ -40,62 +40,102 @@ const Chatbot = () => {
     setIsOpen(!isOpen);
   };
 
+  // --- FINAL getResponse FUNCTION WITH STOP WORD LOGIC ---
   const getResponse = (userInput) => {
     if (!model)
-      return "Sorry, my brain isn't loaded yet. Please try again in a moment.";
+      return {
+        response:
+          "Sorry, my brain isn't loaded yet. Please try again in a moment.",
+      };
+
+    // NEW: List of common words to ignore during scoring
+    const stopWords = new Set([
+      "a",
+      "an",
+      "the",
+      "is",
+      "are",
+      "was",
+      "what",
+      "who",
+      "how",
+      "when",
+      "where",
+      "his",
+      "her",
+      "tell",
+      "me",
+      "about",
+      "can",
+      "you",
+      "give",
+    ]);
 
     const lowerInput = userInput
       .toLowerCase()
       .trim()
       .replace(/[?.,!]/g, "");
+    if (!lowerInput) return null;
+    const inputWords = new Set(
+      lowerInput.split(" ").filter((word) => !stopWords.has(word))
+    ); // Filter out stop words
 
-    const allKeywords = new Set();
-    model.intents.forEach((intent) => {
-      intent.patterns.forEach((pattern) => {
-        pattern.split(" ").forEach((word) => allKeywords.add(word));
-      });
-    });
-
-    const inputWords = lowerInput.split(" ");
-    const hasKnownKeyword = inputWords.some((word) => allKeywords.has(word));
+    let bestMatch = { score: 0, intent: null };
 
     for (const intent of model.intents) {
-      for (const pattern of intent.patterns) {
-        if (pattern.includes(lowerInput)) {
-          return intent.response;
+      let currentScore = 0;
+      const patternWords = new Set(intent.patterns.join(" ").split(" "));
+
+      for (const word of inputWords) {
+        if (patternWords.has(word)) {
+          currentScore++;
         }
+      }
+
+      if (currentScore > bestMatch.score) {
+        bestMatch = { score: currentScore, intent: intent };
       }
     }
 
-    if (hasKnownKeyword) {
-      return "That's a great question! For more specific details, I'd recommend reaching out to Rohan directly via the contact form.";
-    } else {
-      return "I'm sorry, I don't understand that. Please try asking a question about Rohan's skills, projects, or education.";
+    if (bestMatch.score > 0) {
+      return bestMatch.intent;
     }
+
+    return {
+      response:
+        "I'm sorry, I don't understand that. Please try asking a question about Rohan's skills or projects.",
+    };
   };
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if (!inputValue.trim()) return;
+  const sendMessage = (text) => {
+    if (!text.trim()) return;
 
-    const userMessage = { sender: "user", text: inputValue };
+    const userMessage = { sender: "user", text };
     setMessages((prev) => [...prev, userMessage]);
-    const question = inputValue;
-    setInputValue("");
     setIsLoading(true);
 
     setTimeout(() => {
-      let answer;
-      if (model) {
-        answer = getResponse(question);
-      } else {
-        answer =
-          "My knowledge base is still loading. Please try again shortly.";
+      const intent = getResponse(text);
+      if (intent) {
+        const botMessage = {
+          sender: "bot",
+          text: intent.response,
+          suggestions: intent.suggestions || null,
+        };
+        setMessages((prev) => [...prev, botMessage]);
       }
-      const botMessage = { sender: "bot", text: answer };
-      setMessages((prev) => [...prev, botMessage]);
       setIsLoading(false);
     }, 1000);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    sendMessage(inputValue);
+    setInputValue("");
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    sendMessage(suggestion);
   };
 
   return ReactDOM.createPortal(
@@ -129,8 +169,22 @@ const Chatbot = () => {
         </div>
         <div className="chatbot-body" ref={chatBodyRef}>
           {messages.map((msg, index) => (
-            <div key={index} className={`chat-message ${msg.sender}`}>
-              <p>{msg.text}</p>
+            <div key={index}>
+              <div className={`chat-message ${msg.sender}`}>
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
+              </div>
+              {index === messages.length - 1 &&
+                msg.sender === "bot" &&
+                msg.suggestions &&
+                !isLoading && (
+                  <div className="suggestion-buttons">
+                    {msg.suggestions.map((s, i) => (
+                      <button key={i} onClick={() => handleSuggestionClick(s)}>
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                )}
             </div>
           ))}
           {isLoading && (
@@ -143,7 +197,7 @@ const Chatbot = () => {
             </div>
           )}
         </div>
-        <form className="chatbot-input-form" onSubmit={handleSendMessage}>
+        <form className="chatbot-input-form" onSubmit={handleFormSubmit}>
           <input
             type="text"
             value={inputValue}
