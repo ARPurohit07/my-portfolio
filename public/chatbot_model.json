@@ -11,7 +11,8 @@
         "who is he",
         "who is rohan",
         "tell me about rohan",
-        "professional summary"
+        "professional summary",
+        "about him"
       ],
       "response": "Rohan is an AI/ML engineer with expertise in deep learning, computer vision, and real-time AI systems. He is skilled in designing, training, and deploying ML models for healthcare, defence, and automation."
     },
