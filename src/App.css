@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 html {
     box-sizing: border-box;
+    overflow-x: hidden;
 }
 *, *:before, *:after {
     box-sizing: inherit;
@@ -17,7 +18,6 @@ body {
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden; /* Failsafe to prevent any horizontal scrolling */
 }
 
 html {
@@ -112,6 +112,24 @@ html {
     height: 28px;
 }
 
+/* --- NEW: Wrapper for mobile header icons --- */
+.mobile-header-buttons {
+    display: none; /* Hidden by default, shown in mobile media query */
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* --- NEW: Style for the header chatbot button --- */
+.chatbot-header-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 0;
+}
+
+
 .mobile-nav-overlay {
     position: fixed;
     top: 0;
@@ -199,10 +217,201 @@ html {
     background-color: #a78bfa;
     color: #111827;
 }
+.chatbot-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 64px;
+    height: 64px;
+    background-image: linear-gradient(to right, #6d28d9, #4f46e5);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
 
+.chatbot-fab:hover {
+    transform: scale(1.1);
+}
+
+.chatbot-window {
+    position: fixed;
+    bottom: 7rem;
+    right: 2rem;
+    width: 90%;
+    max-width: 400px;
+    height: 500px;
+    background-color: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.chatbot-window.open {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.chatbot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: rgba(31, 41, 55, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chatbot-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+}
+
+.chatbot-close-button {
+    background: none;
+    border: none;
+    color: #9CA3AF;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.chatbot-close-button:hover {
+    color: white;
+}
+
+.chatbot-body {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.chat-message {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.chat-message p {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+.chat-message.bot p {
+    background-color: #374151; /* gray-700 */
+    color: white;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+.chat-message.user p {
+    background-color: #4f46e5; /* indigo-600 */
+    color: white;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.chatbot-input-form {
+    display: flex;
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chatbot-input-form input {
+    flex-grow: 1;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+.chatbot-input-form input:focus {
+    outline: none;
+}
+
+.chatbot-input-form button {
+    background: none;
+    border: none;
+    color: #a78bfa;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+}
+.chatbot-input-form button:hover {
+    color: white;
+}
+.chatbot-input-form button:disabled {
+    color: #4B5563; /* gray-600 */
+    cursor: not-allowed;
+}
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    background-color: #9CA3AF;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.3s infinite;
+}
+.typing-indicator span:nth-of-type(2) { animation-delay: 0.15s; }
+.typing-indicator span:nth-of-type(3) { animation-delay: 0.3s; }
+@keyframes bounce { 50% { transform: translateY(-4px); } }
+@media (max-width: 480px) {
+    .chatbot-fab {
+        width: 56px;
+        height: 56px;
+        bottom: 1rem;
+        right: 1rem;
+    }
+    .chatbot-window {
+        right: 1rem;
+        bottom: 5.5rem;
+        width: calc(100% - 2rem);
+    }
+    .chatbot-window {
+    /* Position at the bottom, full width and height */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Remove rounded corners and max-height */
+    border-radius: 0;
+    max-height: none;
+
+    /* Start off-screen (slid down) for the animation */
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.chatbot-window.open {
+    /* Slide into view to cover the full screen */
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+}
 
 /* --- HERO SECTION --- */
-/* (Rest of the CSS is the same as before) */
 .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
 .starfield-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1; }
 .galaxy-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
@@ -267,7 +476,6 @@ html {
 .project-modal-links { margin-top: 2rem; text-align: left; }
 
 /* --- CONTACT FORM --- */
-/* ... (Contact Form styles are unchanged) ... */
 .contact-section { text-align: center; }
 .contact-section p { font-size: 1.125rem; color: #9CA3AF; margin-bottom: 2rem; max-width: 42rem; margin-left: auto; margin-right: auto; }
 .contact-form { max-width: 48rem; margin: 2.5rem auto 0; display: flex; flex-direction: column; gap: 1.5rem; }
@@ -293,7 +501,10 @@ html {
 /* --- DESKTOP RESPONSIVE STYLES --- */
 @media (min-width: 768px) {
     .nav { display: flex; }
-    .hamburger-button { display: none; }
+    /* MODIFIED: Combined hamburger and chatbot header button hiding */
+    .hamburger-button, .chatbot-header-button { 
+        display: none; 
+    }
     .full-name { display: block; }
     .initials { display: none; }
     .hero-top h1 { font-size: 4.5rem; }
@@ -308,12 +519,21 @@ html {
         padding-left: 1rem;
         padding-right: 1rem;
     }
+
+    /* MODIFIED: Show mobile header buttons and hide desktop nav */
+    .nav { display: none; }
+    .mobile-header-buttons { display: flex; }
     
     .full-name { display: none; }
     .initials { display: block; font-size: 1.5rem; font-weight: 700; }
     
     .header-logo {
         font-size: 1.25rem;
+    }
+
+    /* MODIFIED: Hide floating chatbot button on mobile */
+    .chatbot-fab {
+        display: none;
     }
 
     .hero {

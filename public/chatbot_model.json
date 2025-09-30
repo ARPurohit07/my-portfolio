@@ -1,0 +1,84 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["hi", "hello", "hey"],
+      "response": "Hello! I'm Rohan's AI assistant. I can answer questions about his skills, projects, and experience. What would you like to know? (You can also type 'help')."
+    },
+    {
+      "tag": "about_bot",
+      "patterns": ["who are you", "what are you", "about you"],
+      "response": "I am a simple AI assistant created by Rohan to answer questions about his professional portfolio. I can tell you about his skills, education, internships, and projects."
+    },
+    {
+      "tag": "help",
+      "patterns": ["help", "what can you do", "what can I ask"],
+      "response": "You can ask me about the following topics: \n- Skills (or ask about specific languages, frameworks, or tools)\n- Projects (or ask about the 'drone', 'skin', or 'downloader' project)\n- Education\n- Internships\n- How to contact him"
+    },
+    {
+      "tag": "skills",
+      "patterns": ["skills", "technical skills", "technologies"],
+      "response": "Rohan has a strong skill set in several areas. I can give you more details on his 'languages', 'frameworks', or 'data science tools'."
+    },
+    {
+      "tag": "skills_languages",
+      "patterns": ["languages", "programming languages", "python"],
+      "response": "He is proficient in several programming languages, including Python for AI/ML, JavaScript for web development (like this portfolio!), and C++/C#."
+    },
+    {
+      "tag": "skills_frameworks",
+      "patterns": ["frameworks", "libraries", "tensorflow", "pytorch"],
+      "response": "He has extensive experience with major AI/ML frameworks like TensorFlow, PyTorch, and Keras for building and training deep learning models."
+    },
+    {
+      "tag": "skills_tools",
+      "patterns": ["tools", "data science tools", "pandas", "opencv"],
+      "response": "For data science and computer vision, he uses tools like Pandas and NumPy for data manipulation, Scikit-learn for machine learning models, and OpenCV for image processing."
+    },
+    {
+      "tag": "projects",
+      "patterns": ["projects", "built", "his work"],
+      "response": "Rohan has worked on several key projects. You can ask for more details about the 'Drone Detection System', the 'Skin Disease Classifier', or the 'AI Image Downloader'."
+    },
+    {
+      "tag": "drone_project",
+      "patterns": ["drone", "drone detection"],
+      "response": "For the Drone Detection System, Rohan engineered a computer vision pipeline using a Keras-based CNN and OpenCV. It achieved over 85% confidence in real-time, multi-camera object detection and classification."
+    },
+    {
+      "tag": "skin_project",
+      "patterns": ["skin", "skin disease", "classifier"],
+      "response": "The Skin Disease Classifier is an AI-powered diagnostic tool. Rohan designed and trained a TensorFlow CNN on over 5,000 images, applying data augmentation to improve the model's accuracy in identifying various skin conditions."
+    },
+    {
+      "tag": "downloader_project",
+      "patterns": ["downloader", "image downloader"],
+      "response": "He built a Streamlit application that uses OpenAI's CLIP model for intelligent, content-based bulk image filtering and downloading, moving beyond simple keyword searches."
+    },
+    {
+      "tag": "education",
+      "patterns": ["education", "degree", "study", "college"],
+      "response": "Rohan is pursuing his Bachelor of Engineering in Computer Science at the Thapar Institute of Engineering & Technology in Patiala (2022 - Present)."
+    },
+    {
+      "tag": "internships",
+      "patterns": ["internships", "professional experience"],
+      "response": "Rohan has completed two key internships. At Bharat Electronics Limited (BEL), he engineered a defence-grade object detection pipeline (Faster R-CNN) for drone tracking. At Pan India Consultants, he built a C#/.NET serial port communication tool."
+    },
+    {
+      "tag": "contact",
+      "patterns": ["contact", "email", "reach out"],
+      "response": "You can contact Rohan directly by using the contact form at the bottom of this page. He's always open to discussing new opportunities!"
+    },
+    {
+      "tag": "appreciation",
+      "patterns": ["thanks", "thank you", "cool", "awesome", "great"],
+      "response": "You're welcome! I'm glad I could help. Is there anything else you'd like to know?"
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["bye", "see you later", "goodbye"],
+      "response": "Have a great day!"
+    }
+  ]
+}

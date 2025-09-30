@@ -1,0 +1,79 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["hi", "hello", "hey", "is anyone there?", "good day"],
+      "response": "Hello! I'm Rohan's AI assistant. How can I help you learn more about his skills and projects today?"
+    },
+    {
+      "tag": "skills",
+      "patterns": [
+        "what are his skills?",
+        "show me his technical skills",
+        "what technologies does he know?",
+        "what is he proficient in?",
+        "what can he do?"
+      ],
+      "response": "Rohan's core technical skills include AI/ML concepts like Deep Learning and Computer Vision; frameworks such as TensorFlow, PyTorch, and Keras; and languages like Python, JavaScript, and C++. He is also proficient with data science tools like Pandas and Scikit-learn."
+    },
+    {
+      "tag": "projects",
+      "patterns": [
+        "tell me about his projects",
+        "what has he built?",
+        "show me his work",
+        "what is his experience?"
+      ],
+      "response": "Rohan has worked on several key projects, including a real-time Military Drone Detection System, a Skin Disease Classifier using TensorFlow, and an AI-powered Image Downloader. You can find more details in the 'Key Projects' section of the portfolio."
+    },
+    {
+      "tag": "drone_project",
+      "patterns": [
+        "tell me more about the drone project",
+        "what did he do for drone detection?"
+      ],
+      "response": "For the Drone Detection System, Rohan engineered a computer vision pipeline using a Keras-based CNN and OpenCV. It achieved over 85% confidence in real-time, multi-camera object detection and classification."
+    },
+    {
+      "tag": "skin_project",
+      "patterns": [
+        "what is the skin disease classifier?",
+        "tell me about the medical project"
+      ],
+      "response": "The Skin Disease Classifier is an AI-powered diagnostic tool. Rohan designed and trained a TensorFlow CNN on over 5,000 images, applying data augmentation to improve the model's accuracy in identifying various skin conditions."
+    },
+    {
+      "tag": "education",
+      "patterns": [
+        "where did he study?",
+        "what is his education?",
+        "what college does he go to?",
+        "what is his degree?"
+      ],
+      "response": "Rohan is currently pursuing his Bachelor of Engineering in Computer Science at the Thapar Institute of Engineering & Technology in Patiala, from 2022 to the present."
+    },
+    {
+      "tag": "internships",
+      "patterns": [
+        "what are his internships?",
+        "where has he worked?",
+        "tell me about his professional experience"
+      ],
+      "response": "Rohan has completed two internships. At Bharat Electronics Limited (BEL), he engineered a defence-grade drone detection pipeline. At Pan India Consultants, he built a C#/.NET communication tool and integrated PostgreSQL databases."
+    },
+    {
+      "tag": "contact",
+      "patterns": [
+        "how can I contact him?",
+        "what is his email?",
+        "how to reach out?"
+      ],
+      "response": "You can contact Rohan directly by using the contact form at the bottom of this page. He's always open to discussing new opportunities!"
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["bye", "see you later", "goodbye", "thanks"],
+      "response": "You're welcome! Have a great day."
+    }
+  ]
+}
