@@ -2,77 +2,138 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["hi", "hello", "hey", "is anyone there?", "good day"],
-      "response": "Hello! I'm Rohan's AI assistant. How can I help you learn more about his skills and projects today?"
+      "patterns": ["hi", "hello", "hey"],
+      "response": "Hello! I'm Rohan's AI assistant. I can answer questions about his skills, projects, and experience based on his CV. What would you like to know?"
+    },
+    {
+      "tag": "about_rohan",
+      "patterns": [
+        "who is he",
+        "who is rohan",
+        "tell me about rohan",
+        "professional summary"
+      ],
+      "response": "Rohan is an AI/ML engineer with expertise in deep learning, computer vision, and real-time AI systems. He is skilled in designing, training, and deploying ML models for healthcare, defence, and automation."
+    },
+    {
+      "tag": "hiring_decision",
+      "patterns": ["hire him", "why should I hire him", "is he a good fit"],
+      "response": "Rohan is a strong candidate with proven expertise in building end-to-end AI systems. His project work in real-time drone detection and medical image analysis, along with his internship experience at BEL, demonstrates his ability to tackle complex challenges effectively."
+    },
+    {
+      "tag": "help",
+      "patterns": ["help", "what can you do", "what can I ask"],
+      "response": "You can ask me about the following topics:",
+      "suggestions": ["Skills", "Projects", "Internships", "Social Links"]
     },
     {
       "tag": "skills",
+      "patterns": ["skills", "technical skills", "technologies"],
+      "response": "Rohan's technical skills are divided into several areas. Which would you like to know more about?",
+      "suggestions": ["ML & AI", "Programming", "Data Science", "Databases"]
+    },
+    {
+      "tag": "skills_ml_ai",
       "patterns": [
-        "what are his skills?",
-        "show me his technical skills",
-        "what technologies does he know?",
-        "what is he proficient in?",
-        "what can he do?"
+        "ml & ai",
+        "machine learning",
+        "tensorflow",
+        "pytorch",
+        "opencv"
       ],
-      "response": "Rohan's core technical skills include AI/ML concepts like Deep Learning and Computer Vision; frameworks such as TensorFlow, PyTorch, and Keras; and languages like Python, JavaScript, and C++. He is also proficient with data science tools like Pandas and Scikit-learn."
+      "response": "For ML & AI, he is skilled in Deep Learning, Computer Vision, Neural Networks, TensorFlow, Keras, PyTorch, OpenCV, YOLO, Faster R-CNN, and CLIP."
+    },
+    {
+      "tag": "skills_programming",
+      "patterns": ["programming", "languages", "python", "react"],
+      "response": "His programming skills include Python, C/C++, C#/.NET, JavaScript, HTML, CSS, React, and Streamlit."
+    },
+    {
+      "tag": "skills_datascience",
+      "patterns": ["data science", "pandas", "numpy", "scikit-learn"],
+      "response": "In Data Science, he is proficient with Data Preprocessing, Feature Engineering, Model Evaluation, Visualization, Pandas, NumPy, Matplotlib, and Scikit-learn."
+    },
+    {
+      "tag": "skills_databases",
+      "patterns": ["databases", "sql", "postgresql"],
+      "response": "He has experience with PostgreSQL, Oracle, SQL, and PL/SQL."
+    },
+    {
+      "tag": "skills_tools",
+      "patterns": ["tools", "git", "docker"],
+      "response": "His development tools include Git, Docker, Linux, PIL, and Torch."
     },
     {
       "tag": "projects",
-      "patterns": [
-        "tell me about his projects",
-        "what has he built?",
-        "show me his work",
-        "what is his experience?"
-      ],
-      "response": "Rohan has worked on several key projects, including a real-time Military Drone Detection System, a Skin Disease Classifier using TensorFlow, and an AI-powered Image Downloader. You can find more details in the 'Key Projects' section of the portfolio."
+      "patterns": ["projects", "built", "his work"],
+      "response": "He has several key projects. Which one would you like to know more about?",
+      "suggestions": [
+        "Drone Detection",
+        "Pneumonia Detection",
+        "Image Downloader"
+      ]
     },
     {
       "tag": "drone_project",
-      "patterns": [
-        "tell me more about the drone project",
-        "what did he do for drone detection?"
-      ],
-      "response": "For the Drone Detection System, Rohan engineered a computer vision pipeline using a Keras-based CNN and OpenCV. It achieved over 85% confidence in real-time, multi-camera object detection and classification."
+      "patterns": ["drone", "drone detection"],
+      "response": "He built a Keras-based multi-output CNN for drone detection and subtype classification. The system achieved over 85% confidence and reduced false positives by 30%. You can view the code on [GitHub](https://github.com/ARPurohit07/Military-Drone-Detection-System)."
     },
     {
-      "tag": "skin_project",
-      "patterns": [
-        "what is the skin disease classifier?",
-        "tell me about the medical project"
-      ],
-      "response": "The Skin Disease Classifier is an AI-powered diagnostic tool. Rohan designed and trained a TensorFlow CNN on over 5,000 images, applying data augmentation to improve the model's accuracy in identifying various skin conditions."
+      "tag": "pneumonia_project",
+      "patterns": ["pneumonia", "x-ray", "medical project"],
+      "response": "He designed a TensorFlow CNN for a dataset of over 5,000 chest X-rays to detect pneumonia, involving data augmentation and benchmarking against other models. You can view a similar project on [GitHub](https://github.com/ARPurohit07/Skin-Disease-Detection)."
     },
     {
-      "tag": "education",
-      "patterns": [
-        "where did he study?",
-        "what is his education?",
-        "what college does he go to?",
-        "what is his degree?"
-      ],
-      "response": "Rohan is currently pursuing his Bachelor of Engineering in Computer Science at the Thapar Institute of Engineering & Technology in Patiala, from 2022 to the present."
+      "tag": "downloader_project",
+      "patterns": ["downloader", "image downloader", "clip"],
+      "response": "He developed a Streamlit app for bulk image downloading that uses CLIP-based filtering for intelligent searching. You can view the code on [GitHub](https://github.com/ARPurohit07/Image-Downloader)."
     },
     {
       "tag": "internships",
       "patterns": [
-        "what are his internships?",
-        "where has he worked?",
-        "tell me about his professional experience"
+        "internships",
+        "professional experience",
+        "where has he worked",
+        "bel",
+        "pan india"
       ],
-      "response": "Rohan has completed two internships. At Bharat Electronics Limited (BEL), he engineered a defence-grade drone detection pipeline. At Pan India Consultants, he built a C#/.NET communication tool and integrated PostgreSQL databases."
+      "response": "Rohan has completed two internships. At Bharat Electronics Limited (BEL), he engineered a defence-grade object detection pipeline for drone tracking, increasing accuracy to over 85%. At Pan India Consultants, he built a C#/.NET communication tool and integrated PostgreSQL databases, improving data access speed by 20%."
+    },
+    {
+      "tag": "education",
+      "patterns": [
+        "education",
+        "degree",
+        "study",
+        "college",
+        "academic",
+        "background"
+      ],
+      "response": "He is currently pursuing a B.E. in Computer Science Engineering from Thapar Institute of Engineering & Technology, Patiala (2022-Present). He achieved 97% in his Class XII exams and 91.3% in his Class X exams."
+    },
+    {
+      "tag": "certifications",
+      "patterns": ["certifications", "certified"],
+      "response": "He holds a certification in Data Structures in C++ from Coding Ninjas."
+    },
+    {
+      "tag": "leadership_interests",
+      "patterns": ["leadership", "interests", "hobbies"],
+      "response": "Rohan was the Former Head of the Fine Arts & Photography Society. His interests include sketching, sculpture, and tennis."
     },
     {
       "tag": "contact",
-      "patterns": [
-        "how can I contact him?",
-        "what is his email?",
-        "how to reach out?"
-      ],
-      "response": "You can contact Rohan directly by using the contact form at the bottom of this page. He's always open to discussing new opportunities!"
+      "patterns": ["contact", "email", "reach out"],
+      "response": "You can contact Rohan via email at rohanpurohit14@gmail.com or by phone at +91-8588850024."
+    },
+    {
+      "tag": "social_links",
+      "patterns": ["github", "linkedin", "social media", "socials", "profile"],
+      "response": "You can find Rohan on [GitHub](https://github.com/ARPurohit07) and connect with him on [LinkedIn](https://linkedin.com/in/rohan-purohit-b65062277)."
     },
     {
       "tag": "goodbye",
-      "patterns": ["bye", "see you later", "goodbye", "thanks"],
+      "patterns": ["bye", "see you later", "goodbye", "thanks", "thank you"],
       "response": "You're welcome! Have a great day."
     }
   ]
