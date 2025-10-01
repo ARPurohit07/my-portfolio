@@ -7,13 +7,16 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
       sender: "bot",
-      text: "Hello! I'm Rohan's AI assistant. Ask me about his skills, projects, or education.",
+      text: "Hello! I'm Rohan's AI assistant. How can I help you explore his portfolio?",
+      suggestions: ["View Projects", "Key Skills", "Contact Him"],
     },
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [model, setModel] = useState(null);
   const chatBodyRef = useRef(null);
+
+  const genericSuggestions = ["Projects", "Skills", "Career Goals"];
 
   useEffect(() => {
     fetch("/chatbot_model.json")
@@ -40,15 +43,12 @@ const Chatbot = () => {
     setIsOpen(!isOpen);
   };
 
-  // --- FINAL getResponse FUNCTION WITH STOP WORD LOGIC ---
   const getResponse = (userInput) => {
     if (!model)
       return {
         response:
           "Sorry, my brain isn't loaded yet. Please try again in a moment.",
       };
-
-    // NEW: List of common words to ignore during scoring
     const stopWords = new Set([
       "a",
       "an",
@@ -70,7 +70,6 @@ const Chatbot = () => {
       "you",
       "give",
     ]);
-
     const lowerInput = userInput
       .toLowerCase()
       .trim()
@@ -78,29 +77,23 @@ const Chatbot = () => {
     if (!lowerInput) return null;
     const inputWords = new Set(
       lowerInput.split(" ").filter((word) => !stopWords.has(word))
-    ); // Filter out stop words
-
+    );
     let bestMatch = { score: 0, intent: null };
-
     for (const intent of model.intents) {
       let currentScore = 0;
       const patternWords = new Set(intent.patterns.join(" ").split(" "));
-
       for (const word of inputWords) {
         if (patternWords.has(word)) {
           currentScore++;
         }
       }
-
       if (currentScore > bestMatch.score) {
         bestMatch = { score: currentScore, intent: intent };
       }
     }
-
     if (bestMatch.score > 0) {
       return bestMatch.intent;
     }
-
     return {
       response:
         "I'm sorry, I don't understand that. Please try asking a question about Rohan's skills or projects.",
@@ -109,11 +102,9 @@ const Chatbot = () => {
 
   const sendMessage = (text) => {
     if (!text.trim()) return;
-
     const userMessage = { sender: "user", text };
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
-
     setTimeout(() => {
       const intent = getResponse(text);
       if (intent) {
@@ -121,6 +112,7 @@ const Chatbot = () => {
           sender: "bot",
           text: intent.response,
           suggestions: intent.suggestions || null,
+          tag: intent.tag,
         };
         setMessages((prev) => [...prev, botMessage]);
       }
@@ -168,25 +160,64 @@ const Chatbot = () => {
           </button>
         </div>
         <div className="chatbot-body" ref={chatBodyRef}>
-          {messages.map((msg, index) => (
-            <div key={index}>
-              <div className={`chat-message ${msg.sender}`}>
-                <ReactMarkdown>{msg.text}</ReactMarkdown>
-              </div>
-              {index === messages.length - 1 &&
-                msg.sender === "bot" &&
-                msg.suggestions &&
-                !isLoading && (
-                  <div className="suggestion-buttons">
-                    {msg.suggestions.map((s, i) => (
-                      <button key={i} onClick={() => handleSuggestionClick(s)}>
-                        {s}
-                      </button>
-                    ))}
-                  </div>
+          {messages.map((msg, index) => {
+            const isLastBotMessage =
+              index === messages.length - 1 &&
+              msg.sender === "bot" &&
+              !isLoading;
+            const hasSpecificSuggestions =
+              msg.suggestions && msg.suggestions.length > 0;
+            const lastTag = msg.tag;
+
+            return (
+              <div key={index}>
+                <div className={`chat-message ${msg.sender}`}>
+                  <ReactMarkdown>{msg.text}</ReactMarkdown>
+                </div>
+
+                {isLastBotMessage && (
+                  <>
+                    {hasSpecificSuggestions && (
+                      <div className="suggestion-buttons">
+                        {msg.suggestions.map((s, i) => (
+                          <button
+                            key={i}
+                            onClick={() => handleSuggestionClick(s)}
+                          >
+                            {s}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {!hasSpecificSuggestions && (
+                      <div className="follow-up-prompt">
+                        <p>What else would you like to know?</p>
+                        <div className="suggestion-buttons">
+                          {/* --- MODIFIED: This is the corrected filtering logic --- */}
+                          {genericSuggestions
+                            .filter((s) => {
+                              // Standardize both the suggestion and the tag for a reliable match
+                              const suggestionAsTag = s
+                                .toLowerCase()
+                                .replace(/ /g, "_");
+                              return !lastTag?.includes(suggestionAsTag);
+                            })
+                            .map((s, i) => (
+                              <button
+                                key={i}
+                                onClick={() => handleSuggestionClick(s)}
+                              >
+                                {s}
+                              </button>
+                            ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
           {isLoading && (
             <div className="chat-message bot">
               <div className="typing-indicator">
