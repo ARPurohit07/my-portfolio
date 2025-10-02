@@ -79,7 +79,7 @@ const Skills = () => {
       category: "Core AI/ML Concepts",
       icon: <BrainIcon />,
       skillsList: [
-        "Deep Learning",
+        "Deep Learning frameworks",
         "Computer Vision",
         "Neural Networks",
         "Feature Engineering",
