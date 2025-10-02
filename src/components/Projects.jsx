@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ProjectModal from "./ProjectModal"; // Import the new modal component
 
 // --- Icon Components ---
 const VisionIcon = () => (
@@ -58,35 +59,29 @@ const ToolIcon = () => (
     <path d="m2 2 20 20"></path>
   </svg>
 );
-
-const ProjectDetailsPane = ({ project }) => (
-  <div className="project-details-pane">
-    <hr className="details-separator" />
-    <div className="project-modal-section">
-      <h3 className="project-modal-subtitle">About This Project</h3>
-      <p>{project.longDescription}</p>
-    </div>
-    <div className="project-modal-section">
-      <h3 className="project-modal-subtitle">Key Challenges</h3>
-      <p>{project.challenges}</p>
-    </div>
-    <div className="project-modal-links">
-      <a
-        href={project.githubUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hero-button"
-      >
-        View Code on GitHub
-      </a>
-    </div>
-  </div>
+const WebIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="project-icon"
+  >
+    <polyline points="16 18 22 12 16 6"></polyline>
+    <polyline points="8 6 2 12 8 18"></polyline>
+  </svg>
 );
 
 const Projects = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   const projectData = [
+    // ... your projectData array remains exactly the same as before
     {
       title: "Military Drone Detection System",
       shortDescription:
@@ -101,19 +96,19 @@ const Projects = () => {
         "The primary challenge was maintaining high accuracy while minimizing false positives from objects like birds. Additionally, processing multiple high-resolution video streams in real-time required significant pipeline optimization to avoid latency.",
     },
     {
-      title: "Skin Disease Classifier",
+      title: "Pneumonia Detection from X-Rays",
       shortDescription:
-        "Designed and trained a TensorFlow CNN to classify medical scans, applying augmentation to improve model accuracy.",
-      tags: ["TensorFlow", "CNN", "Data Augmentation"],
+        "Designed and trained a TensorFlow CNN on 5,000+ chest X-rays to improve diagnostic accuracy.",
+      tags: ["TensorFlow", "CNN", "Healthcare"],
       icon: <MedicalIcon />,
       githubUrl: "https://github.com/ARPurohit07/Skin-Disease-Detection",
       longDescription:
-        "An AI-powered diagnostic tool designed to assist dermatologists by classifying various skin conditions from images. The project involved training a deep learning model on a large, labeled dataset of skin lesion images.",
+        "An AI-powered diagnostic tool designed to assist medical professionals by classifying chest X-rays to detect pneumonia. The project involved training a deep learning model on a large, labeled dataset of medical images, achieving high accuracy through data augmentation and normalization techniques.",
       challenges:
-        "The dataset was highly imbalanced, with some diseases having far fewer samples than others. The high visual similarity between certain conditions also made classification difficult, risking model overfitting.",
+        "The dataset was highly imbalanced, and the high visual similarity between healthy and infected lungs made classification difficult. Overcoming this required careful model tuning and data preprocessing to avoid overfitting.",
     },
     {
-      title: "Image Downloader using API",
+      title: "AI-Based Image Downloader",
       shortDescription:
         "Built a Streamlit application that uses the CLIP model for intelligent, content-based bulk image filtering and downloading.",
       tags: ["Streamlit", "CLIP", "Python", "AI APIs"],
@@ -124,55 +119,59 @@ const Projects = () => {
       challenges:
         "Integrating the powerful but complex CLIP model into a lightweight Streamlit interface was a key challenge. Another hurdle was managing API requests efficiently and handling bulk downloads without crashing the application.",
     },
+    {
+      title: "Personal Portfolio Website",
+      shortDescription:
+        "A responsive personal portfolio built with React, featuring a custom AI chatbot to showcase projects and skills.",
+      tags: ["React", "JavaScript", "CSS", "UI/UX"],
+      icon: <WebIcon />,
+      githubUrl: "https://github.com/ARPurohit07",
+      longDescription:
+        "This fully responsive website was created to serve as a central hub for my professional work. It's built from the ground up using React and modern CSS for a clean, performant user experience. The integrated AI chatbot is a key feature, demonstrating the ability to create interactive and intelligent user interfaces.",
+      challenges:
+        "A major challenge was ensuring the website and its complex animations were performant on all devices, especially mobile. Implementing the chatbot's logic, including the keyword-scoring algorithm and state management, required careful planning and iterative debugging.",
+    },
   ];
 
-  const handleItemClick = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
   return (
-    <section id="projects" className="section">
-      <h2 className="section-title">Key Projects</h2>
-      <div className="projects-container">
-        {projectData.map((project, index) => (
-          <div key={index} className="project-wrapper">
-            <button
-              className="project-item"
-              onClick={() => handleItemClick(index)}
+    <>
+      <section id="projects" className="section">
+        <h2 className="section-title">Key Projects</h2>
+        <div className="projects-container">
+          {projectData.map((project, index) => (
+            <div
+              key={index}
+              className="project-wrapper project-card"
+              onClick={() => setSelectedProject(project)}
             >
-              <div className="project-icon-container">{project.icon}</div>
-              <div className="project-details">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">
-                  {project.shortDescription}
-                </p>
-                <div className="project-tags">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="project-tag">
-                      {tag}
-                    </span>
-                  ))}
+              <div className="project-item">
+                <div className="project-icon-container">{project.icon}</div>
+                <div className="project-details">
+                  <h3 className="project-title">{project.title}</h3>
+                  <p className="project-description">
+                    {project.shortDescription}
+                  </p>
+                  <div className="project-tags">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="project-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div
-                className={`project-arrow ${
-                  activeIndex === index ? "open" : ""
-                }`}
-              >
-                &#9660;
-              </div>
-            </button>
-            <div
-              className={`details-pane-container ${
-                activeIndex === index ? "open" : ""
-              }`}
-            >
-              <ProjectDetailsPane project={project} />
             </div>
-          </div>
-        ))}
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
+
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
+    </>
   );
 };
 

@@ -2,139 +2,148 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["hi", "hello", "hey"],
-      "response": "Hello! I'm Rohan's AI assistant. I can answer questions about his skills, projects, and experience based on his CV. What would you like to know?"
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey",
+        "Good morning",
+        "Good afternoon",
+        "Good evening"
+      ],
+      "responses": [
+        "Hello! I'm Rohan's AI assistant. How can I help you explore his portfolio?",
+        "Hi there! What would you like to know about Rohan?",
+        "Greetings! Feel free to ask me about Rohan's skills, projects, or experience."
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "Goodbye", "See you later", "Thanks, bye"],
+      "responses": [
+        "Goodbye! Feel free to return if you have more questions.",
+        "See you around! Have a great day.",
+        "Bye! Thanks for stopping by."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "Appreciate it", "Many thanks"],
+      "responses": [
+        "You're welcome!",
+        "Happy to help!",
+        "No problem!",
+        "Glad I could assist."
+      ]
+    },
+    {
+      "tag": "name",
+      "patterns": [
+        "What is your name?",
+        "Who are you?",
+        "What should I call you?"
+      ],
+      "responses": [
+        "I am Rohan's AI assistant, here to help you navigate his portfolio.",
+        "You can call me Rohan's assistant. I'm powered by AI.",
+        "I'm an AI assistant created to answer questions about Rohan's work."
+      ]
     },
     {
       "tag": "about_rohan",
       "patterns": [
-        "who is he",
-        "who is rohan",
-        "tell me about rohan",
-        "professional summary"
+        "Tell me about Rohan",
+        "Who is Rohan?",
+        "What does Rohan do?",
+        "Rohan's background",
+        "About Rohan",
+        "What are his achievements?",
+        "What has he achieved?"
       ],
-      "response": "Rohan is an AI/ML engineer with expertise in deep learning, computer vision, and real-time AI systems. He is skilled in designing, training, and deploying ML models for healthcare, defence, and automation."
-    },
-    {
-      "tag": "hiring_decision",
-      "patterns": ["hire him", "why should I hire him", "is he a good fit"],
-      "response": "Rohan is a strong candidate with proven expertise in building end-to-end AI systems. His project work in real-time drone detection and medical image analysis, along with his internship experience at BEL, demonstrates his ability to tackle complex challenges effectively."
-    },
-    {
-      "tag": "help",
-      "patterns": ["help", "what can you do", "what can I ask"],
-      "response": "You can ask me about the following topics:",
-      "suggestions": ["Skills", "Projects", "Internships", "Social Links"]
-    },
-    {
-      "tag": "skills",
-      "patterns": ["skills", "technical skills", "technologies"],
-      "response": "Rohan's technical skills are divided into several areas. Which would you like to know more about?",
-      "suggestions": ["ML & AI", "Programming", "Data Science", "Databases"]
-    },
-    {
-      "tag": "skills_ml_ai",
-      "patterns": [
-        "ml & ai",
-        "machine learning",
-        "tensorflow",
-        "pytorch",
-        "opencv"
-      ],
-      "response": "For ML & AI, he is skilled in Deep Learning, Computer Vision, Neural Networks, TensorFlow, Keras, PyTorch, OpenCV, YOLO, Faster R-CNN, and CLIP."
-    },
-    {
-      "tag": "skills_programming",
-      "patterns": ["programming", "languages", "python", "react"],
-      "response": "His programming skills include Python, C/C++, C#/.NET, JavaScript, HTML, CSS, React, and Streamlit."
-    },
-    {
-      "tag": "skills_datascience",
-      "patterns": ["data science", "pandas", "numpy", "scikit-learn"],
-      "response": "In Data Science, he is proficient with Data Preprocessing, Feature Engineering, Model Evaluation, Visualization, Pandas, NumPy, Matplotlib, and Scikit-learn."
-    },
-    {
-      "tag": "skills_databases",
-      "patterns": ["databases", "sql", "postgresql"],
-      "response": "He has experience with PostgreSQL, Oracle, SQL, and PL/SQL."
-    },
-    {
-      "tag": "skills_tools",
-      "patterns": ["tools", "git", "docker"],
-      "response": "His development tools include Git, Docker, Linux, PIL, and Torch."
-    },
-    {
-      "tag": "projects",
-      "patterns": ["projects", "built", "his work"],
-      "response": "He has several key projects. Which one would you like to know more about?",
-      "suggestions": [
-        "Drone Detection",
-        "Pneumonia Detection",
-        "Image Downloader"
+      "responses": [
+        "Rohan is an AI/ML engineer specializing in deep learning and computer vision. He's passionate about building intelligent systems and solving complex problems with elegant software solutions.",
+        "Rohan Purohit is a dedicated Software & AI Engineer with expertise in machine learning, computer vision, and full-stack development. He focuses on turning intricate challenges into robust software solutions.",
+        "Rohan is a Software & AI Engineer who leverages deep learning and computer vision to create impactful projects. He's driven by curiosity and a desire to build innovative technology."
       ]
     },
     {
-      "tag": "drone_project",
-      "patterns": ["drone", "drone detection"],
-      "response": "He built a Keras-based multi-output CNN for drone detection and subtype classification. The system achieved over 85% confidence and reduced false positives by 30%. You can view the code on [GitHub](https://github.com/ARPurohit07/Military-Drone-Detection-System)."
-    },
-    {
-      "tag": "pneumonia_project",
-      "patterns": ["pneumonia", "x-ray", "medical project"],
-      "response": "He designed a TensorFlow CNN for a dataset of over 5,000 chest X-rays to detect pneumonia, involving data augmentation and benchmarking against other models. You can view a similar project on [GitHub](https://github.com/ARPurohit07/Skin-Disease-Detection)."
-    },
-    {
-      "tag": "downloader_project",
-      "patterns": ["downloader", "image downloader", "clip"],
-      "response": "He developed a Streamlit app for bulk image downloading that uses CLIP-based filtering for intelligent searching. You can view the code on [GitHub](https://github.com/ARPurohit07/Image-Downloader)."
-    },
-    {
-      "tag": "internships",
+      "tag": "skills",
       "patterns": [
-        "internships",
-        "professional experience",
-        "where has he worked",
-        "bel",
-        "pan india"
+        "What are Rohan's skills?",
+        "What technologies does Rohan know?",
+        "What programming languages does Rohan use?",
+        "Rohan's expertise",
+        "What is he good at?",
+        "Skills"
       ],
-      "response": "Rohan has completed two internships. At Bharat Electronics Limited (BEL), he engineered a defence-grade object detection pipeline for drone tracking, increasing accuracy to over 85%. At Pan India Consultants, he built a C#/.NET communication tool and integrated PostgreSQL databases, improving data access speed by 20%."
+      "responses": [
+        "Rohan's core skills include Deep Learning, Computer Vision, and Neural Networks. He's proficient in frameworks like TensorFlow, Keras, PyTorch, and Scikit-learn, and languages such as Python, C++, and JavaScript. He also has strong web development skills including React and Streamlit. [cite: 1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56, 61]",
+        "He has expertise in Python, C/C++, JavaScript, React, TensorFlow, Keras, PyTorch, OpenCV, and more. He's adept at various aspects of AI/ML, web development, and software engineering. [cite: 1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56, 61]",
+        "Rohan is skilled in Core AI/ML Concepts (Deep Learning, Computer Vision), Frameworks & Libraries (TensorFlow, PyTorch, OpenCV), Web Development (React, JavaScript), and Languages & Tools (Python, C++, Docker, SQL). [cite: 1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56, 61]"
+      ]
     },
     {
-      "tag": "education",
+      "tag": "projects",
       "patterns": [
-        "education",
-        "degree",
-        "study",
-        "college",
-        "academic",
-        "background"
+        "Tell me about his projects",
+        "What projects has Rohan worked on?",
+        "Can you list Rohan's projects?",
+        "Projects",
+        "Show me his work"
       ],
-      "response": "He is currently pursuing a B.E. in Computer Science Engineering from Thapar Institute of Engineering & Technology, Patiala (2022-Present). He achieved 97% in his Class XII exams and 91.3% in his Class X exams."
+      "responses": [
+        "Rohan has worked on several key projects, including a Military Drone Detection System, Pneumonia Detection from X-Rays, an AI-Based Image Downloader, and his Personal Portfolio Website. You can explore them in detail in the Projects section. [cite: 1, 11, 21, 31]",
+        "His portfolio showcases projects in computer vision, medical diagnostics, AI tools, and web development. Each project demonstrates his ability to apply advanced AI/ML and software engineering skills. [cite: 1, 11, 21, 31]",
+        "You can find detailed information on Rohan's projects in the dedicated 'Projects' section of his portfolio. They range from drone detection to NLP applications. [cite: 1, 11, 21, 31]"
+      ]
     },
     {
-      "tag": "certifications",
-      "patterns": ["certifications", "certified"],
-      "response": "He holds a certification in Data Structures in C++ from Coding Ninjas."
-    },
-    {
-      "tag": "leadership_interests",
-      "patterns": ["leadership", "interests", "hobbies"],
-      "response": "Rohan was the Former Head of the Fine Arts & Photography Society. His interests include sketching, sculpture, and tennis."
+      "tag": "web_development_projects",
+      "patterns": [
+        "Any web development projects?",
+        "Has Rohan done any projects on web development?",
+        "Does Rohan have experience with front-end development?",
+        "Web projects"
+      ],
+      "responses": [
+        "Yes, Rohan built his Personal Portfolio Website using React, JavaScript, and modern CSS, which includes an AI chatbot. He also developed an AI-Based Image Downloader using Streamlit, demonstrating his web application development skills. [cite: 11, 31]",
+        "Rohan's web development experience includes building interactive user interfaces with React and creating data-driven web applications using Streamlit. His own portfolio is a prime example of his front-end skills. [cite: 11, 31]",
+        "He has strong web development skills, showcased by his portfolio website and AI-based tools developed with frameworks like React and Streamlit. [cite: 11, 31]"
+      ]
     },
     {
       "tag": "contact",
-      "patterns": ["contact", "email", "reach out"],
-      "response": "You can contact Rohan via email at rohanpurohit14@gmail.com or by phone at +91-8588850024."
+      "patterns": [
+        "How can I contact Rohan?",
+        "Rohan's email",
+        "Contact information",
+        "Reach out to Rohan"
+      ],
+      "responses": [
+        "You can find Rohan's contact information and a direct contact form in the 'Contact' section of this portfolio.",
+        "Feel free to use the contact form on his website or connect with him via the social links provided.",
+        "All contact details are available on the 'Contact' page."
+      ]
     },
     {
-      "tag": "social_links",
-      "patterns": ["github", "linkedin", "social media", "socials", "profile"],
-      "response": "You can find Rohan on [GitHub](https://github.com/ARPurohit07) and connect with him on [LinkedIn](https://linkedin.com/in/rohan-purohit-b65062277)."
+      "tag": "certifications",
+      "patterns": [
+        "certifications",
+        "certified",
+        "What certifications does Rohan have?",
+        "List his certificates"
+      ],
+      "responses": [
+        "He holds two key certifications: \n\n* **Data Structures in C++** from Coding Ninjas.\n* **Natural Language Processing with Classification and Vector Spaces** from DeepLearning.AI and Coursera."
+      ]
     },
     {
-      "tag": "goodbye",
-      "patterns": ["bye", "see you later", "goodbye", "thanks", "thank you"],
-      "response": "You're welcome! Have a great day."
+      "tag": "no_match",
+      "patterns": [],
+      "responses": [
+        "I'm sorry, I don't understand that. Please try asking a question about Rohan's skills, projects, or certifications.",
+        "I'm not sure what you're asking. Can you rephrase your question about Rohan's portfolio?",
+        "My apologies, I can only provide information related to Rohan's professional work. Please ask about his skills, projects, or background."
+      ]
     }
   ]
 }

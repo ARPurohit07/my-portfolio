@@ -53,15 +53,34 @@ const DatabaseIcon = () => (
     <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
   </svg>
 );
+// NEW: Icon for Web Development
+const WebDevIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="skill-icon"
+  >
+    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+    <line x1="8" y1="21" x2="16" y2="21"></line>
+    <line x1="12" y1="17" x2="12" y2="21"></line>
+  </svg>
+);
 
 const Skills = () => {
-  // New, more strategic data structure
   const skillsData = [
     {
       category: "Core AI/ML Concepts",
       icon: <BrainIcon />,
       skillsList: [
-        "Deep Learning frameworks",
+        "Deep Learning",
+        "Computer Vision",
         "Neural Networks",
         "Feature Engineering",
         "Model Evaluation",
@@ -82,18 +101,28 @@ const Skills = () => {
       ],
     },
     {
-      category: "Languages & Development Tools",
+      category: "Web Development & UI/UX", // NEW CATEGORY
+      icon: <WebDevIcon />,
+      skillsList: [
+        "React",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "Streamlit",
+        "UI/UX Design",
+      ],
+    },
+    {
+      category: "Languages & Tools", // Renamed and updated
       icon: <DatabaseIcon />,
       skillsList: [
         "Python",
-        "JavaScript",
-        "React",
         "C/C++",
         "C#/.NET",
         "SQL",
+        "PostgreSQL",
         "Git",
         "Docker",
-        "Streamlit",
       ],
     },
   ];

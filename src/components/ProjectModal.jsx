@@ -1,5 +1,41 @@
 import React, { useEffect } from "react";
 
+// --- Reusable Icon Components ---
+const InfoIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="12" y1="16" x2="12" y2="12"></line>
+    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+  </svg>
+);
+const TargetIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="10"></circle>
+    <circle cx="12" cy="12" r="6"></circle>
+    <circle cx="12" cy="12" r="2"></circle>
+  </svg>
+);
+
 const ProjectModal = ({ project, onClose }) => {
   // Effect to handle closing the modal with the Escape key
   useEffect(() => {
@@ -26,7 +62,7 @@ const ProjectModal = ({ project, onClose }) => {
 
         <h2 className="project-modal-title">{project.title}</h2>
 
-        <div className="project-modal-tags">
+        <div className="project-tags">
           {project.tags.map((tag) => (
             <span key={tag} className="project-tag">
               {tag}
@@ -35,12 +71,18 @@ const ProjectModal = ({ project, onClose }) => {
         </div>
 
         <div className="project-modal-section">
-          <h3 className="project-modal-subtitle">About This Project</h3>
+          <h3 className="project-modal-subtitle">
+            <InfoIcon />
+            <span>About This Project</span>
+          </h3>
           <p>{project.longDescription}</p>
         </div>
 
         <div className="project-modal-section">
-          <h3 className="project-modal-subtitle">Key Challenges</h3>
+          <h3 className="project-modal-subtitle">
+            <TargetIcon />
+            <span>Key Challenges</span>
+          </h3>
           <p>{project.challenges}</p>
         </div>
 

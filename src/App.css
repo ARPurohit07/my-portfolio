@@ -1,7 +1,6 @@
 /* --- GLOBAL RESET & BOX-SIZING (THE DEFINITIVE FIX) --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* MODIFIED: Moved overflow-x property from body to html */
 html {
     box-sizing: border-box;
     overflow-x: hidden;
@@ -12,7 +11,6 @@ html {
 
 /* --- GLOBAL STYLES & FONTS --- */
 
-/* MODIFIED: Removed overflow-x property */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #000000;
@@ -111,14 +109,12 @@ html {
     height: 28px;
 }
 
-/* NEW: Wrapper for mobile header icons */
 .mobile-header-buttons {
     display: none;
     align-items: center;
     gap: 0.5rem;
 }
 
-/* NEW: Style for the header chatbot button */
 .chatbot-header-button {
     background: none;
     border: none;
@@ -315,7 +311,6 @@ html {
     line-height: 1.5;
 }
 
-/* NEW: Style for clickable links rendered by Markdown */
 .chat-message p a {
     color: #c4b5fd;
     text-decoration: underline;
@@ -327,7 +322,7 @@ html {
 }
 
 .chat-message.bot p {
-    background-color: #374151; /* gray-700 */
+    background-color: #374151;
     color: white;
     border-bottom-left-radius: 0.25rem;
 }
@@ -336,7 +331,7 @@ html {
     justify-content: flex-end;
 }
 .chat-message.user p {
-    background-color: #4f46e5; /* indigo-600 */
+    background-color: #4f46e5;
     color: white;
     border-bottom-right-radius: 0.25rem;
 }
@@ -371,7 +366,7 @@ html {
     color: white;
 }
 .chatbot-input-form button:disabled {
-    color: #4B5563; /* gray-600 */
+    color: #4B5563;
     cursor: not-allowed;
 }
 .typing-indicator span {
@@ -382,17 +377,10 @@ html {
     display: inline-block;
     animation: bounce 1.3s infinite;
 }
-.follow-up-prompt p {
-    font-size: 0.9rem;
-    color: #9CA3AF; /* gray-400 */
-    margin-left: 0.5rem;
-    margin-bottom: 0.5rem;
-}
 .typing-indicator span:nth-of-type(2) { animation-delay: 0.15s; }
 .typing-indicator span:nth-of-type(3) { animation-delay: 0.3s; }
 @keyframes bounce { 50% { transform: translateY(-4px); } }
 
-/* NEW: Styles for suggestion buttons */
 .suggestion-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -416,6 +404,13 @@ html {
 .suggestion-buttons button:hover {
     background-color: #a78bfa;
     color: #111827;
+}
+
+.follow-up-prompt p {
+    font-size: 0.9rem;
+    color: #9CA3AF;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 /* --- HERO SECTION --- */
@@ -446,7 +441,7 @@ html {
 .timeline-description { color: #D1D5DB; line-height: 1.6; margin: 0; }
 
 /* --- "GLASS" CARD STYLES --- */
-.skill-item, .project-wrapper { background-color: rgba(17, 24, 39, 0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.75rem; }
+.skill-item { background-color: rgba(17, 24, 39, 0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.75rem; }
 .skills-container { display: flex; flex-direction: column; gap: 1.5rem; max-width: 56rem; margin: auto; }
 .skill-item { display: flex; align-items: flex-start; gap: 1.5rem; padding: 1.5rem; transition: background-color 0.3s ease; }
 .skill-item:hover { background-color: rgba(17, 24, 39, 0.7); }
@@ -458,10 +453,34 @@ html {
 .skill-tag { background-color: #374151; color: #E5E7EB; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; }
 
 /* --- PROJECTS SECTION STYLES --- */
-.projects-container { display: flex; flex-direction: column; gap: 1.5rem; max-width: 56rem; margin: auto; }
-.project-wrapper { transition: background-color 0.3s ease, border-color 0.3s ease; overflow: hidden; }
-.project-wrapper:hover { background-color: rgba(17, 24, 39, 0.7); border-color: rgba(167, 139, 250, 0.5); }
-.project-item { display: flex; align-items: center; width: 100%; gap: 1.5rem; padding: 1.5rem; cursor: pointer; background: none; border: none; text-align: left; color: inherit; }
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+    max-width: none;
+}
+.project-wrapper {
+    background-color: rgba(17, 24, 39, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.project-wrapper:hover { 
+    background-color: rgba(17, 24, 39, 0.7); 
+    border-color: rgba(167, 139, 250, 0.5); 
+}
+.project-item { 
+    display: flex; 
+    align-items: flex-start; 
+    width: 100%; 
+    gap: 1.5rem; 
+    padding: 1.5rem; 
+    background: none; 
+    border: none; 
+    text-align: left; 
+    color: inherit;
+}
 .project-icon-container { flex-shrink: 0; background-color: rgba(31, 41, 55, 0.7); padding: 0.75rem; border-radius: 0.5rem; }
 .project-icon { width: 1.5rem; height: 1.5rem; color: #c4b5fd; }
 .project-details { flex-grow: 1; }
@@ -469,18 +488,8 @@ html {
 .project-description { color: #9CA3AF; margin: 0 0 1rem 0; line-height: 1.6; }
 .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .project-tag { background-color: #374151; color: #E5E7EB; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; }
-.project-arrow { font-size: 1.2rem; color: #9CA3AF; transition: transform 0.3s ease; }
-.project-arrow.open { transform: rotate(180deg); }
 
-/* --- DETAILS PANE STYLES --- */
-.details-pane-container { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s ease-in-out; }
-.details-pane-container.open { grid-template-rows: 1fr; }
-.project-details-pane { overflow: hidden; position: relative; padding: 0 1.5rem 1.5rem 1.5rem; }
-.details-separator { border: none; height: 1px; background-color: rgba(255, 255, 255, 0.1); margin: 0 0 1.5rem 0; }
-.project-modal-section { margin-bottom: 1.5rem; }
-.project-modal-subtitle { font-size: 1.125rem; font-weight: 600; color: #c4b5fd; margin: 0 0 0.5rem 0; border-left: 3px solid #a78bfa; padding-left: 0.75rem; }
-.project-modal-section p { color: #D1D5DB; line-height: 1.7; margin: 0; }
-.project-modal-links { margin-top: 2rem; text-align: left; }
+/* --- REMOVED old details pane styles as they are now in the modal --- */
 
 /* --- CONTACT FORM --- */
 .contact-section { text-align: center; }
@@ -508,7 +517,7 @@ html {
 /* --- DESKTOP RESPONSIVE STYLES --- */
 @media (min-width: 768px) {
     .nav { display: flex; }
-    .mobile-header-buttons { display: none; } /* MODIFIED: Hide mobile wrapper on desktop */
+    .mobile-header-buttons { display: none; }
     .full-name { display: block; }
     .initials { display: none; }
     .hero-top h1 { font-size: 4.5rem; }
@@ -524,11 +533,10 @@ html {
         padding-right: 1rem;
     }
     
-    .nav { display: none; } /* Hide desktop nav on mobile */
-    .hamburger-button { display: block; } /* Show hamburger icon */
-    .mobile-header-buttons { display: flex; } /* Show mobile icon group */
-
-    .chatbot-fab { display: none; } /* Hide floating button on mobile */
+    .nav { display: none; }
+    .hamburger-button { display: block; }
+    .mobile-header-buttons { display: flex; }
+    .chatbot-fab { display: none; }
 
     .full-name { display: none; }
     .initials { display: block; font-size: 1.5rem; font-weight: 700; }
@@ -592,4 +600,205 @@ html {
     .skill-icon-container, .project-icon-container { padding: 0.5rem; margin-top: 0.1rem; }
     .skill-icon, .project-icon { width: 1.25rem; height: 1.25rem; }
     .contact-form { margin-top: 2rem; }
+}
+
+/* --- NEW: PROJECT MODAL STYLES --- */
+
+.project-card {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.project-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+.project-modal-content {
+    background-color: #111827; /* gray-900 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    width: 90%;
+    max-width: 48rem;
+    position: relative;
+    transform: scale(0.95);
+    animation: scaleIn 0.3s forwards;
+}
+
+.project-modal-close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #9CA3AF;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.project-modal-close-button:hover {
+    color: white;
+    transform: rotate(90deg);
+}
+
+.project-modal-title {
+    font-size: 1.75rem;
+    margin: 0 0 1rem 0;
+    color: white;
+}
+
+.project-modal-section { 
+    margin-bottom: 1.5rem; 
+}
+
+.project-modal-subtitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #c4b5fd;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.project-modal-section p {
+    color: #D1D5DB;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.project-modal-links { 
+    margin-top: 2rem;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    to { transform: scale(1); }
+}
+
+@media (max-width: 767px) {
+    .project-modal-content {
+        padding: 1.5rem;
+        height: 80vh;
+        overflow-y: auto;
+    }
+    .project-modal-title {
+        font-size: 1.5rem;
+    }
+}
+.certifications-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 48rem;
+    margin: auto;
+}
+
+.certification-item {
+    background-color: rgba(17, 24, 39, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.certification-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.certification-thumbnail {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.certification-details {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.certification-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    margin: 0 0 0.5rem 0;
+}
+
+.certification-issuer {
+    color: #c4b5fd;
+    margin: 0;
+    font-weight: 500;
+}
+
+.certification-date {
+    font-size: 0.875rem;
+    color: #9CA3AF;
+    margin: 0.75rem 0 0 0;
+}
+
+/* --- CERTIFICATION MODAL STYLES --- */
+
+.certification-modal-content {
+    background-color: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    width: 90%;
+    max-width: 50rem;
+    position: relative;
+    text-align: center;
+    transform: scale(0.95);
+    animation: scaleIn 0.3s forwards;
+}
+
+.certification-modal-image {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.certification-modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    margin: 0 0 0.5rem 0;
+}
+
+.certification-modal-issuer {
+    color: #c4b5fd;
+    margin: 0;
+    font-weight: 500;
 }
