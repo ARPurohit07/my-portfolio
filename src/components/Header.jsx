@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import cvFile from "../assets/Rohan_Purohit_CV.pdf"; // NEW: Import the PDF file
+import cvFile from "../assets/Rohan_purohit_CV.pdf"; 
 
 const openChatbot = () => {
   window.dispatchEvent(new CustomEvent("open-chatbot"));
