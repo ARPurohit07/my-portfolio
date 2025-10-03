@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import cvFile from "../assets/Rohan_Purohit_CV.pdf"; // NEW: Import the PDF file
 
-// This function dispatches a global event that the Chatbot component will listen for.
 const openChatbot = () => {
   window.dispatchEvent(new CustomEvent("open-chatbot"));
 };
@@ -30,12 +30,16 @@ const Header = () => {
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
-            <a href="/Rohan_Purohit_CV.pdf" download className="cv-button">
+            {/* MODIFIED: Use the imported file path */}
+            <a
+              href={cvFile}
+              download="Rohan_Purohit_CV.pdf"
+              className="cv-button"
+            >
               Download CV
             </a>
           </nav>
 
-          {/* This wrapper ensures the buttons are grouped correctly on mobile */}
           <div className="mobile-header-buttons">
             <button
               className="chatbot-header-button"
@@ -119,9 +123,10 @@ const Header = () => {
             <a href="#contact" onClick={closeMenu}>
               Contact
             </a>
+            {/* MODIFIED: Use the imported file path */}
             <a
-              href="/Rohan_Purohit_CV.pdf"
-              download
+              href={cvFile}
+              download="Rohan_Purohit_CV.pdf"
               className="cv-button-mobile"
             >
               <svg
