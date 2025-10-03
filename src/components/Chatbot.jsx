@@ -13,111 +13,71 @@ const Chatbot = () => {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [model, setModel] = useState(null);
   const chatBodyRef = useRef(null);
-
-  const genericSuggestions = ["Projects", "Skills", "Career Goals"];
-
-  useEffect(() => {
-    fetch("/chatbot_model.json")
-      .then((response) => response.json())
-      .then((data) => setModel(data))
-      .catch((error) => console.error("Failed to load chatbot model:", error));
-  }, []);
 
   useEffect(() => {
     const handleOpenChat = () => setIsOpen(true);
     window.addEventListener("open-chatbot", handleOpenChat);
-    return () => {
-      window.removeEventListener("open-chatbot", handleOpenChat);
-    };
+    return () => window.removeEventListener("open-chatbot", handleOpenChat);
   }, []);
 
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleChat = () => setIsOpen(!isOpen);
 
-  const getResponse = (userInput) => {
-    if (!model)
-      return {
-        response:
-          "Sorry, my brain isn't loaded yet. Please try again in a moment.",
-      };
-    const stopWords = new Set([
-      "a",
-      "an",
-      "the",
-      "is",
-      "are",
-      "was",
-      "what",
-      "who",
-      "how",
-      "when",
-      "where",
-      "his",
-      "her",
-      "tell",
-      "me",
-      "about",
-      "can",
-      "you",
-      "give",
-    ]);
-    const lowerInput = userInput
-      .toLowerCase()
-      .trim()
-      .replace(/[?.,!]/g, "");
-    if (!lowerInput) return null;
-    const inputWords = new Set(
-      lowerInput.split(" ").filter((word) => !stopWords.has(word))
-    );
-    let bestMatch = { score: 0, intent: null };
-    for (const intent of model.intents) {
-      let currentScore = 0;
-      const patternWords = new Set(intent.patterns.join(" ").split(" "));
-      for (const word of inputWords) {
-        if (patternWords.has(word)) {
-          currentScore++;
-        }
-      }
-      if (currentScore > bestMatch.score) {
-        bestMatch = { score: currentScore, intent: intent };
-      }
-    }
-    if (bestMatch.score > 0) {
-      return bestMatch.intent;
-    }
-    return {
-      response:
-        "I'm sorry, I don't understand that. Please try asking a question about Rohan's skills or projects.",
-    };
-  };
-
-  const sendMessage = (text) => {
+  // --- NEW: sendMessage now calls the API and handles streaming ---
+  const sendMessage = async (text) => {
     if (!text.trim()) return;
+
     const userMessage = { sender: "user", text };
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
-    setTimeout(() => {
-      const intent = getResponse(text);
-      if (intent) {
-        const botMessage = {
-          sender: "bot",
-          text: intent.response,
-          suggestions: intent.suggestions || null,
-          tag: intent.tag,
-        };
-        setMessages((prev) => [...prev, botMessage]);
+
+    // Prepare a placeholder for the bot's streaming response
+    const botMessagePlaceholder = { sender: "bot", text: "" };
+    setMessages((prev) => [...prev, botMessagePlaceholder]);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text }),
+      });
+
+      if (!response.body) return;
+
+      const reader = response.body
+        .pipeThrough(new TextDecoderStream())
+        .getReader();
+      let accumulatedResponse = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        accumulatedResponse += value;
+
+        setMessages((prev) => {
+          const newMessages = [...prev];
+          newMessages[newMessages.length - 1].text = accumulatedResponse;
+          return newMessages;
+        });
       }
+    } catch (error) {
+      setMessages((prev) => {
+        const newMessages = [...prev];
+        newMessages[newMessages.length - 1].text =
+          "Sorry, I'm having trouble connecting.";
+        return newMessages;
+      });
+      console.error("Failed to fetch chatbot response:", error);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleFormSubmit = (e) => {
@@ -141,7 +101,7 @@ const Chatbot = () => {
           xmlns="http://www.w3.org/2000/svg"
           width="32"
           height="32"
-          viewBox="0 0 24 24"
+          viewBox="0 0 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -160,65 +120,12 @@ const Chatbot = () => {
           </button>
         </div>
         <div className="chatbot-body" ref={chatBodyRef}>
-          {messages.map((msg, index) => {
-            const isLastBotMessage =
-              index === messages.length - 1 &&
-              msg.sender === "bot" &&
-              !isLoading;
-            const hasSpecificSuggestions =
-              msg.suggestions && msg.suggestions.length > 0;
-            const lastTag = msg.tag;
-
-            return (
-              <div key={index}>
-                <div className={`chat-message ${msg.sender}`}>
-                  <ReactMarkdown>{msg.text}</ReactMarkdown>
-                </div>
-
-                {isLastBotMessage && (
-                  <>
-                    {hasSpecificSuggestions && (
-                      <div className="suggestion-buttons">
-                        {msg.suggestions.map((s, i) => (
-                          <button
-                            key={i}
-                            onClick={() => handleSuggestionClick(s)}
-                          >
-                            {s}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    {!hasSpecificSuggestions && (
-                      <div className="follow-up-prompt">
-                        <p>What else would you like to know?</p>
-                        <div className="suggestion-buttons">
-                          {/* --- MODIFIED: This is the corrected filtering logic --- */}
-                          {genericSuggestions
-                            .filter((s) => {
-                              // Standardize both the suggestion and the tag for a reliable match
-                              const suggestionAsTag = s
-                                .toLowerCase()
-                                .replace(/ /g, "_");
-                              return !lastTag?.includes(suggestionAsTag);
-                            })
-                            .map((s, i) => (
-                              <button
-                                key={i}
-                                onClick={() => handleSuggestionClick(s)}
-                              >
-                                {s}
-                              </button>
-                            ))}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            );
-          })}
-          {isLoading && (
+          {messages.map((msg, index) => (
+            <div key={index} className={`chat-message ${msg.sender}`}>
+              <ReactMarkdown>{msg.text}</ReactMarkdown>
+            </div>
+          ))}
+          {isLoading && messages[messages.length - 1]?.text === "" && (
             <div className="chat-message bot">
               <div className="typing-indicator">
                 <span></span>
@@ -233,7 +140,7 @@ const Chatbot = () => {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Ask about my skills..."
+            placeholder="Ask a question..."
             disabled={isLoading}
           />
           <button type="submit" disabled={isLoading} aria-label="Send Message">
@@ -241,7 +148,7 @@ const Chatbot = () => {
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
