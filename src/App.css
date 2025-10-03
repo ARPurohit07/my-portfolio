@@ -235,9 +235,9 @@ html {
     bottom: 7rem;
     right: 2rem;
     width: 90%;
-    max-width: 440px; /* MODIFIED */
-    height: 600px; /* MODIFIED */
-    max-height: 70vh; /* Added to prevent overflow on shorter screens */
+    max-width: 440px;
+    height: 600px;
+    max-height: 70vh;
     background-color: rgba(17, 24, 39, 0.8);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -457,10 +457,11 @@ html {
 
 .skill-item { background-color: rgba(17, 24, 39, 0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.75rem; }
 .skills-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
-    max-width: none;
+    max-width: 56rem;
+    margin: auto;
 }
 .skill-item { display: flex; align-items: flex-start; gap: 1.5rem; padding: 1.5rem; transition: background-color 0.3s ease; }
 .skill-item:hover { background-color: rgba(17, 24, 39, 0.7); }
@@ -478,8 +479,6 @@ html {
     max-width: none;
 }
 .project-wrapper {
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    overflow: hidden;
     background-color: rgba(17, 24, 39, 0.4);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -801,4 +800,3 @@ html {
     margin: 0;
     font-weight: 500;
 }
-
