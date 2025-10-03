@@ -1,9 +1,9 @@
 import React from "react";
-import Galaxy from "./Galaxy"; // Import the new Galaxy component
+import Galaxy from "./Galaxy"; 
 
 const HeroTop = () => (
   <div className="hero-top">
-    <h1>Software & AI Engineer</h1>
+    <h1>Software Engineer</h1>
   </div>
 );
 
