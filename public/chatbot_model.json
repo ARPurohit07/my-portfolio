@@ -4,7 +4,7 @@
       "tag": "greeting",
       "patterns": ["hi", "hello", "hey"],
       "response": "Hello! I'm Rohan's AI assistant, ready to answer your questions. What would you like to know about his work?",
-      "suggestions": ["Skills", "Projects", "Experience"]
+      "suggestions": ["Skills", "Projects", "Achievements"]
     },
     {
       "tag": "about_rohan",
@@ -21,6 +21,56 @@
       "tag": "about_bot",
       "patterns": ["about this bot", "bot information", "who are you"],
       "response": "I am a simple AI assistant created by Rohan to help you explore his professional portfolio. You can ask me about his experience, education, and more."
+    },
+    {
+      "tag": "achievements",
+      "patterns": [
+        "achievements",
+        "accomplishments",
+        "what has he achieved",
+        "key results",
+        "achivements",
+        "acheivements"
+      ],
+      "response": "Rohan has delivered measurable results in his projects and internships. Key achievements include:\n\n* **Achieved 85%+ accuracy** in real-time drone detection pipelines.\n* **Reduced false positives by 30%** through advanced preprocessing and multi-perspective fusion.\n* **Improved data access speed by 20%** by integrating PostgreSQL databases with C#/.NET applications."
+    },
+    {
+      "tag": "web_dev_achievements",
+      "patterns": [
+        "web development achievements",
+        "front-end achievements",
+        "react achievements"
+      ],
+      "response": "His main web development achievement is this portfolio website itself. It was built from the ground up using React and modern CSS to be fully responsive and performant, even with complex animations. A key feature is the integration of this AI chatbot, demonstrating his ability to create interactive and intelligent user interfaces."
+    },
+    {
+      "tag": "problem_solving",
+      "patterns": [
+        "problem solving",
+        "how do you handle challenges",
+        "biggest challenge"
+      ],
+      "response": "A great example of his problem-solving is from the Drone Detection project. He faced a significant challenge with false positives and successfully reduced them by 30% by implementing advanced preprocessing and multi-perspective fusion. This shows his methodical approach to identifying a problem, researching solutions, and implementing them to achieve a measurable improvement."
+    },
+    {
+      "tag": "career_goals",
+      "patterns": [
+        "career goals",
+        "aspirations",
+        "what are you looking for",
+        "what's next for you"
+      ],
+      "response": "His career goal is to work on challenging AI/ML problems in a collaborative environment, particularly in fields like computer vision or automation, where he can contribute to building impactful, real-world systems. Does this align with an opportunity you have in mind?"
+    },
+    {
+      "tag": "availability",
+      "patterns": [
+        "availability",
+        "are you available",
+        "looking for a job",
+        "work status"
+      ],
+      "response": "He is actively seeking full-time AI/ML Engineer roles. Are you hiring for such a position?"
     },
     {
       "tag": "hiring_decision",
@@ -55,37 +105,44 @@
         "pytorch",
         "opencv"
       ],
-      "response": "For ML & AI, he's skilled in Deep Learning, Computer Vision, TensorFlow, Keras, PyTorch, and OpenCV, among others. Is there a specific technology you'd like to ask about?"
+      "response": "His core ML & AI skills include:\n\n* **Concepts**: Deep Learning, Computer Vision, Neural Networks\n* **Frameworks**: TensorFlow, Keras, PyTorch, OpenCV\n* **Models**: YOLO, Faster R-CNN, CLIP"
     },
     {
       "tag": "skills_programming",
       "patterns": ["programming", "languages", "python", "react"],
-      "response": "His programming languages include Python (for AI/ML), JavaScript (with React), and C#/.NET. Feel free to ask about a specific one!"
+      "response": "He is proficient in the following languages:\n\n* Python\n* C/C++\n* C#/.NET\n* JavaScript (with React & Streamlit)\n* HTML/CSS"
     },
     {
       "tag": "skills_datascience",
       "patterns": ["data science", "pandas", "numpy", "scikit-learn"],
-      "response": "In Data Science, he's proficient with Pandas, NumPy, and Scikit-learn for data preprocessing, feature engineering, and model evaluation."
+      "response": "For Data Science, he uses:\n\n* **Libraries**: Pandas, NumPy, Matplotlib, Scikit-learn\n* **Techniques**: Data Preprocessing, Feature Engineering, Model Evaluation"
     },
     {
       "tag": "skills_databases",
       "patterns": ["databases", "sql", "postgresql"],
-      "response": "Yes, he has experience with PostgreSQL, Oracle, and SQL."
+      "response": "Yes, he has experience with PostgreSQL, Oracle, and SQL. What else would you like to know?",
+      "suggestions": ["See all Skills", "View Projects", "Contact Him"]
     },
     {
       "tag": "skills_tools",
       "patterns": ["tools", "git", "docker"],
-      "response": "He uses a standard set of development tools, including Git for version control and Docker for containerization."
+      "response": "His development tools include Git, Docker, Linux, PIL, and Torch."
     },
     {
       "tag": "projects",
       "patterns": ["projects", "built", "his work", "show me his projects"],
-      "response": "Absolutely! His key projects include a Drone Detection System, a Pneumonia Detection model, and an AI Image Downloader. Which one would you like to explore?",
-      "suggestions": [
-        "Drone Detection",
-        "Pneumonia Detection",
-        "Image Downloader"
-      ]
+      "response": "Absolutely! His key projects include a Drone Detection System, a Pneumonia Detection model, an AI Image Downloader, and this portfolio website itself. Which one would you like to explore?",
+      "suggestions": ["Drone Detection", "Pneumonia Detection", "This Website"]
+    },
+    {
+      "tag": "portfolio_project",
+      "patterns": [
+        "portfolio",
+        "this website",
+        "web development",
+        "react project"
+      ],
+      "response": "Yes, this portfolio website is one of his projects. It was built using React and modern CSS. It also includes this custom AI chatbot, which is powered by a rule-based NLP engine."
     },
     {
       "tag": "drone_project",
@@ -125,7 +182,8 @@
         "bel",
         "pan india"
       ],
-      "response": "He has completed two valuable internships. At Bharat Electronics Limited (BEL), he engineered a defence-grade drone detection pipeline. At Pan India Consultants, he built a C#/.NET communication tool and integrated PostgreSQL databases. Would you like to know more about his skills or projects?"
+      "response": "He has completed two valuable internships. At Bharat Electronics Limited (BEL), he engineered a defence-grade drone detection pipeline. At Pan India Consultants, he built a C#/.NET communication tool and integrated PostgreSQL databases. Would you like to know more about his skills or projects?",
+      "suggestions": ["Skills", "Projects"]
     },
     {
       "tag": "education",
@@ -143,7 +201,7 @@
     {
       "tag": "certifications",
       "patterns": ["certifications", "certified"],
-      "response": "Yes, he holds a certification in Data Structures in C++ from Coding Ninjas. Is there anything else I can help you with?"
+      "response": "He holds two key certifications: \n\n* **Data Structures in C++** from Coding Ninjas. \n* **Natural Language Processing with Classification and Vector Spaces** from DeepLearning.AI and Coursera."
     },
     {
       "tag": "leadership_interests",
@@ -170,36 +228,6 @@
       "tag": "linkedin_link",
       "patterns": ["linkedin", "linkedin profile", "what is his linkedin"],
       "response": "Of course. You can connect with him professionally on [LinkedIn](https://linkedin.com/in/rohan-purohit-b65062277)."
-    },
-    {
-      "tag": "career_goals",
-      "patterns": [
-        "career goals",
-        "aspirations",
-        "what are you looking for",
-        "what's next for you"
-      ],
-      "response": "His career goal is to work on challenging AI/ML problems in a collaborative environment, particularly in fields where he can contribute to building impactful, real-world systems. Does this align with an opportunity you have in mind?"
-    },
-    {
-      "tag": "project_challenges",
-      "patterns": [
-        "biggest challenge",
-        "difficult project",
-        "problem solving",
-        "how do you handle challenges"
-      ],
-      "response": "A great example of his problem-solving is from the Drone Detection project. He faced a significant challenge with false positives and successfully reduced them by 30% by implementing advanced preprocessing and multi-perspective fusion."
-    },
-    {
-      "tag": "availability",
-      "patterns": [
-        "availability",
-        "are you available",
-        "looking for a job",
-        "work status"
-      ],
-      "response": "He is actively seeking full-time AI/ML Engineer roles. Are you hiring for such a position?"
     },
     {
       "tag": "relocation",
