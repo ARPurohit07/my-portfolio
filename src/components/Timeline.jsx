@@ -38,18 +38,18 @@ const Timeline = () => {
   const timelineData = [
     {
       type: "Work",
-      title: "Intern - Bharat Electronics Limited (BEL)",
-      date: "Jun 2025 - Jul 2025",
-      description:
-        "Engineered a defence-grade object detection pipeline (YOLO/Faster R-CNN) for real-time drone tracking and reduced false positives by 30% through multi-perspective fusion.",
-      icon: <WorkIcon />,
-    },
-    {
-      type: "Work",
       title: "Intern - Pan India Consultants Pvt. Ltd.",
       date: "Jun 2024",
       description:
         "Built a C#/.NET serial port communication tool for industrial hardware and integrated PostgreSQL with applications, improving data access speed by 20%.",
+      icon: <WorkIcon />,
+    },
+      {
+      type: "Work",
+      title: "Intern - Bharat Electronics Limited (BEL)",
+      date: "Jun 2025 - Jul 2025",
+      description:
+        "Engineered a defence-grade object detection pipeline (YOLO/Faster R-CNN) for real-time drone tracking and reduced false positives by 30% through multi-perspective fusion.",
       icon: <WorkIcon />,
     },
     {
