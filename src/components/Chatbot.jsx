@@ -1,20 +1,35 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import ReactMarkdown from "react-markdown";
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      sender: "bot",
-      text: "Hello! I'm Rohan's AI assistant. How can I help you explore his portfolio?",
-      suggestions: ["View Projects", "Key Skills", "Contact Him"],
-    },
-  ]);
+  const [messages, setMessages] = useState(() => {
+    // Load from localStorage if available
+    const saved = localStorage.getItem("chatbot-history");
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Failed to parse chat history:", e);
+      }
+    }
+    return [
+      {
+        sender: "bot",
+        text: "Hello! I'm Rohan's AI assistant. How can I help you explore his portfolio?",
+        suggestions: ["View Projects", "Key Skills", "Contact Him"],
+        timestamp: new Date().toISOString(),
+      },
+    ];
+  });
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [model, setModel] = useState(null);
+  const [conversationContext, setConversationContext] = useState([]);
+  const [analytics, setAnalytics] = useState({});
   const chatBodyRef = useRef(null);
+  const inputRef = useRef(null);
 
   const genericSuggestions = ["Projects", "Skills", "Career Goals"];
 
@@ -33,14 +48,108 @@ const Chatbot = () => {
     };
   }, []);
 
+  // Save messages to localStorage
+  useEffect(() => {
+    localStorage.setItem("chatbot-history", JSON.stringify(messages));
+  }, [messages]);
+
   useEffect(() => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   }, [messages]);
 
+  // Focus input when chat opens
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
   const toggleChat = () => {
     setIsOpen(!isOpen);
+  };
+
+  const clearChat = () => {
+    const initialMessage = {
+      sender: "bot",
+      text: "Chat cleared! How can I help you?",
+      suggestions: ["View Projects", "Key Skills", "Contact Him"],
+      timestamp: new Date().toISOString(),
+    };
+    setMessages([initialMessage]);
+    setConversationContext([]);
+    localStorage.removeItem("chatbot-history");
+  };
+
+  // Levenshtein distance for fuzzy matching
+  const levenshteinDistance = (str1, str2) => {
+    const matrix = [];
+    for (let i = 0; i <= str2.length; i++) {
+      matrix[i] = [i];
+    }
+    for (let j = 0; j <= str1.length; j++) {
+      matrix[0][j] = j;
+    }
+    for (let i = 1; i <= str2.length; i++) {
+      for (let j = 1; j <= str1.length; j++) {
+        if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+    return matrix[str2.length][str1.length];
+  };
+
+  // Calculate TF-IDF similarity
+  const calculateTFIDF = (userInput, intent) => {
+    const allPatterns = intent.patterns.join(" ").toLowerCase();
+    const userWords = userInput.toLowerCase().split(" ");
+    const patternWords = allPatterns.split(" ");
+    
+    let score = 0;
+    userWords.forEach((word) => {
+      // Exact match
+      if (patternWords.includes(word)) {
+        score += 2;
+      } else {
+        // Fuzzy match
+        patternWords.forEach((pWord) => {
+          const distance = levenshteinDistance(word, pWord);
+          const maxLen = Math.max(word.length, pWord.length);
+          if (distance <= 2 && maxLen > 3) {
+            score += 1 - distance / maxLen;
+          }
+        });
+      }
+    });
+    
+    // Boost score if context matches
+    if (conversationContext.length > 0) {
+      const lastContext = conversationContext[conversationContext.length - 1];
+      if (intent.tag.includes(lastContext) || lastContext.includes(intent.tag)) {
+        score *= 1.3;
+      }
+    }
+    
+    return score;
   };
 
   const getResponse = (userInput) => {
@@ -49,76 +158,72 @@ const Chatbot = () => {
         response:
           "Sorry, my brain isn't loaded yet. Please try again in a moment.",
       };
-    const stopWords = new Set([
-      "a",
-      "an",
-      "the",
-      "is",
-      "are",
-      "was",
-      "what",
-      "who",
-      "how",
-      "when",
-      "where",
-      "his",
-      "her",
-      "tell",
-      "me",
-      "about",
-      "can",
-      "you",
-      "give",
-    ]);
-    const lowerInput = userInput
-      .toLowerCase()
-      .trim()
-      .replace(/[?.,!]/g, "");
+    
+    const lowerInput = userInput.toLowerCase().trim();
     if (!lowerInput) return null;
-    const inputWords = new Set(
-      lowerInput.split(" ").filter((word) => !stopWords.has(word))
-    );
+
     let bestMatch = { score: 0, intent: null };
+    
     for (const intent of model.intents) {
-      let currentScore = 0;
-      const patternWords = new Set(intent.patterns.join(" ").split(" "));
-      for (const word of inputWords) {
-        if (patternWords.has(word)) {
-          currentScore++;
-        }
-      }
-      if (currentScore > bestMatch.score) {
-        bestMatch = { score: currentScore, intent: intent };
+      const score = calculateTFIDF(lowerInput, intent);
+      if (score > bestMatch.score) {
+        bestMatch = { score, intent };
       }
     }
-    if (bestMatch.score > 0) {
+
+    // Track analytics
+    if (bestMatch.intent) {
+      setAnalytics((prev) => ({
+        ...prev,
+        [bestMatch.intent.tag]: (prev[bestMatch.intent.tag] || 0) + 1,
+      }));
+    }
+
+    // Require minimum confidence threshold
+    if (bestMatch.score > 1.5) {
       return bestMatch.intent;
     }
+
     return {
       response:
-        "I'm sorry, I don't understand that. Please try asking a question about Rohan's skills or projects.",
+        "I'm not quite sure about that. Could you rephrase? You can also try asking about Rohan's skills, projects, or experience.",
+      suggestions: ["Show me projects", "What are his skills?", "Contact info"],
     };
   };
 
-  const sendMessage = (text) => {
+  const sendMessage = useCallback((text) => {
     if (!text.trim()) return;
-    const userMessage = { sender: "user", text };
+    const userMessage = { 
+      sender: "user", 
+      text,
+      timestamp: new Date().toISOString(),
+    };
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
+    
+    // Simulate more realistic typing delay based on response length
+    const intent = getResponse(text);
+    const delay = intent ? Math.min(800 + intent.response.length * 10, 2000) : 1000;
+    
     setTimeout(() => {
-      const intent = getResponse(text);
       if (intent) {
         const botMessage = {
           sender: "bot",
           text: intent.response,
           suggestions: intent.suggestions || null,
           tag: intent.tag,
+          timestamp: new Date().toISOString(),
         };
         setMessages((prev) => [...prev, botMessage]);
+        
+        // Update conversation context
+        if (intent.tag) {
+          setConversationContext((prev) => [...prev.slice(-2), intent.tag]);
+        }
       }
       setIsLoading(false);
-    }, 1000);
-  };
+    }, delay);
+  }, [model, conversationContext]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -128,6 +233,14 @@ const Chatbot = () => {
 
   const handleSuggestionClick = (suggestion) => {
     sendMessage(suggestion);
+  };
+
+  const formatTimestamp = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+    });
   };
 
   return ReactDOM.createPortal(
@@ -154,10 +267,36 @@ const Chatbot = () => {
 
       <div className={`chatbot-window ${isOpen ? "open" : ""}`}>
         <div className="chatbot-header">
-          <h3>Rohan's AI Assistant</h3>
-          <button className="chatbot-close-button" onClick={toggleChat}>
-            &times;
-          </button>
+          <div>
+            <h3>Rohan's AI Assistant</h3>
+            <span className="chatbot-status">Online</span>
+          </div>
+          <div className="chatbot-header-actions">
+            <button 
+              className="chatbot-clear-button" 
+              onClick={clearChat}
+              title="Clear chat"
+              aria-label="Clear chat"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+            </button>
+            <button className="chatbot-close-button" onClick={toggleChat}>
+              &times;
+            </button>
+          </div>
         </div>
         <div className="chatbot-body" ref={chatBodyRef}>
           {messages.map((msg, index) => {
@@ -172,7 +311,14 @@ const Chatbot = () => {
             return (
               <div key={index}>
                 <div className={`chat-message ${msg.sender}`}>
-                  <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  <div className="message-content">
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                    {msg.timestamp && (
+                      <span className="message-timestamp">
+                        {formatTimestamp(msg.timestamp)}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {isLastBotMessage && (
@@ -228,11 +374,13 @@ const Chatbot = () => {
         </div>
         <form className="chatbot-input-form" onSubmit={handleFormSubmit}>
           <input
+            ref={inputRef}
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Ask about my skills..."
             disabled={isLoading}
+            aria-label="Chat input"
           />
           <button type="submit" disabled={isLoading} aria-label="Send Message">
             <svg

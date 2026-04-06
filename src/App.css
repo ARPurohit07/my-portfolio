@@ -268,11 +268,63 @@ html {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.chatbot-header > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
 .chatbot-header h3 {
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
     color: white;
+}
+
+.chatbot-status {
+    font-size: 0.75rem;
+    color: #10b981;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.chatbot-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #10b981;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.chatbot-header-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.chatbot-clear-button {
+    background: none;
+    border: none;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chatbot-clear-button:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .chatbot-close-button {
@@ -295,14 +347,24 @@ html {
 
 .chat-message {
     display: flex;
+    flex-direction: column;
     margin-bottom: 1rem;
+}
+
+.chat-message.user {
+    align-items: flex-end;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
 }
 
 .chat-message p {
     margin: 0;
     padding: 0.75rem 1rem;
     border-radius: 1rem;
-    max-width: 80%;
     line-height: 1.5;
 }
 
@@ -329,6 +391,43 @@ html {
     background-color: #4f46e5;
     color: white;
     border-bottom-right-radius: 0.25rem;
+}
+
+.message-timestamp {
+    font-size: 0.7rem;
+    color: #9CA3AF;
+    margin-top: 0.25rem;
+    padding: 0 0.25rem;
+}
+
+.message-feedback {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.message-feedback button {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.message-feedback button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.message-feedback-thanks {
+    font-size: 0.75rem;
+    color: #10b981;
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+    font-style: italic;
 }
 
 .chat-message ul {
@@ -447,6 +546,7 @@ html {
 
 .timeline-container { position: relative; max-width: 48rem; margin: auto; }
 .timeline-container::after { content: ''; position: absolute; width: 2px; background-color: rgba(255, 255, 255, 0.15); top: 0; bottom: 0; left: 28px; }
+.timeline-container::before { content: ''; position: absolute; width: 8px; height: 8px; border-radius: 50%; background-color: transparent; border: 1px solid rgba(255, 255, 255, 0.35); left: 28px; bottom: -2px; transform: translateX(-50%); }
 .timeline-item { padding-left: 5rem; position: relative; margin-bottom: 3rem; }
 .timeline-item:last-child { margin-bottom: 0; }
 .timeline-icon-container { position: absolute; left: 0; top: 0; z-index: 10; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; background-color: #111827; border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 50%; color: #c4b5fd; }
@@ -465,8 +565,8 @@ html {
 }
 .skill-item { display: flex; align-items: flex-start; gap: 1.5rem; padding: 1.5rem; transition: background-color 0.3s ease; }
 .skill-item:hover { background-color: rgba(17, 24, 39, 0.7); }
-.skill-icon-container { flex-shrink: 0; background-color: rgba(31, 41, 55, 0.7); padding: 0.75rem; border-radius: 0.5rem; margin-top: 0.25rem; }
-.skill-icon { width: 1.5rem; height: 1.5rem; color: #c4b5fd; }
+.skill-icon-container { flex-shrink: 0; display: flex; align-items: center; justify-content: center; background-color: rgba(31, 41, 55, 0.7); padding: 0.75rem; border-radius: 0.5rem; margin-top: 0.25rem; }
+.skill-icon { width: 1.5rem; height: 1.5rem; color: #c4b5fd; display: block; }
 .skill-details { flex-grow: 1; }
 .skill-category-title { font-size: 1.25rem; font-weight: 600; color: white; margin: 0 0 1rem 0; }
 .skill-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; }
@@ -488,8 +588,8 @@ html {
 }
 .project-wrapper:hover { background-color: rgba(17, 24, 39, 0.7); border-color: rgba(167, 139, 250, 0.5); }
 .project-item { display: flex; align-items: flex-start; width: 100%; gap: 1.5rem; padding: 1.5rem; background: none; border: none; text-align: left; color: inherit; flex-grow: 1; }
-.project-icon-container { flex-shrink: 0; background-color: rgba(31, 41, 55, 0.7); padding: 0.75rem; border-radius: 0.5rem; }
-.project-icon { width: 1.5rem; height: 1.5rem; color: #c4b5fd; }
+.project-icon-container { flex-shrink: 0; display: flex; align-items: center; justify-content: center; background-color: rgba(31, 41, 55, 0.7); padding: 0.75rem; border-radius: 0.5rem; }
+.project-icon { width: 1.5rem; height: 1.5rem; color: #c4b5fd; display: block; }
 .project-details { flex-grow: 1; }
 .project-title { font-size: 1.25rem; font-weight: 600; color: white; margin: 0 0 0.5rem 0; }
 .project-description { color: #9CA3AF; margin: 0 0 1rem 0; line-height: 1.6; }

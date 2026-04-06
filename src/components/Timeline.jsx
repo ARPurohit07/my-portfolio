@@ -52,6 +52,14 @@ const Timeline = () => {
         "Engineered a defence-grade object detection pipeline (YOLO/Faster R-CNN) for real-time drone tracking and reduced false positives by 30% through multi-perspective fusion.",
       icon: <WorkIcon />,
     },
+      {
+        type: "Work",
+        title: "Software Intern - Bayer Pharmasuiticals",
+        date: "Jan 2026 - Present",
+        description:
+          "Working on Bayer Pharmasuiticals' end-to-end clinical imaging application, contributing across the software lifecycle in a collaborative, cross-functional team.",
+        icon: <WorkIcon />,
+      },
     {
       type: "Education",
       title: "B.E. Computer Science Engineering",

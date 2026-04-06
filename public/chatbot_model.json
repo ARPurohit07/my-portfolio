@@ -2,7 +2,7 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["hi", "hello", "hey"],
+      "patterns": ["hi", "hello", "hey", "greetings", "good morning", "good afternoon", "good evening", "hola", "sup", "yo"],
       "response": "Hello! I'm Rohan's AI assistant, ready to answer your questions. What would you like to know about his work?",
       "suggestions": ["Skills", "Projects", "Achievements"]
     },
@@ -13,14 +13,20 @@
         "who is rohan",
         "tell me about rohan",
         "professional summary",
-        "about him"
+        "about him",
+        "introduce rohan",
+        "rohan purohit",
+        "background",
+        "profile"
       ],
-      "response": "Rohan is an AI/ML engineer specializing in deep learning and computer vision. He's passionate about building intelligent systems that solve real-world problems. Would you like to know more about his skills or projects?"
+      "response": "Rohan is an AI/ML engineer specializing in deep learning and computer vision. He's passionate about building intelligent systems that solve real-world problems. Would you like to know more about his skills or projects?",
+      "suggestions": ["Technical Skills", "View Projects", "Education"]
     },
     {
       "tag": "about_bot",
-      "patterns": ["about this bot", "bot information", "who are you"],
-      "response": "I am a simple AI assistant created by Rohan to help you explore his professional portfolio. You can ask me about his experience, education, and more."
+      "patterns": ["about this bot", "bot information", "who are you", "what are you", "chatbot info", "how does this work"],
+      "response": "I am an AI assistant created by Rohan using advanced NLP techniques to help you explore his professional portfolio. I use fuzzy matching and TF-IDF scoring to understand your questions. Feel free to ask me about his experience, skills, projects, and more!",
+      "suggestions": ["What can you tell me?", "Projects", "Contact"]
     },
     {
       "tag": "achievements",
@@ -80,7 +86,7 @@
     },
     {
       "tag": "help",
-      "patterns": ["help", "topics", "options", "what should I ask"],
+      "patterns": ["help", "topics", "options", "what should I ask", "what can you do", "commands", "guide", "assistance"],
       "response": "I can help with the following topics. Just ask!",
       "suggestions": ["Skills", "Projects", "Internships", "GitHub", "Contact"]
     },
@@ -91,7 +97,11 @@
         "technical skills",
         "technologies",
         "what are his skills",
-        "what is he good at"
+        "what is he good at",
+        "expertise",
+        "competencies",
+        "tech stack",
+        "capabilities"
       ],
       "response": "Rohan's technical expertise covers several key areas. Which one interests you the most?",
       "suggestions": ["ML & AI", "Programming", "Data Science", "Databases"]
@@ -103,23 +113,31 @@
         "machine learning",
         "tensorflow",
         "pytorch",
-        "opencv"
+        "opencv",
+        "artificial intelligence",
+        "deep learning",
+        "neural networks",
+        "computer vision",
+        "ai skills"
       ],
-      "response": "His core ML & AI skills include:\n\n* **Concepts**: Deep Learning, Computer Vision, Neural Networks\n* **Frameworks**: TensorFlow, Keras, PyTorch, OpenCV\n* **Models**: YOLO, Faster R-CNN, CLIP"
+      "response": "His core ML & AI skills include:\n\n* **Concepts**: Deep Learning, Computer Vision, Neural Networks\n* **Frameworks**: TensorFlow, Keras, PyTorch, OpenCV\n* **Models**: YOLO, Faster R-CNN, CLIP",
+      "suggestions": ["View AI Projects", "Other Skills", "Contact"]
     },
     {
       "tag": "skills_programming",
-      "patterns": ["programming", "languages", "python", "react"],
-      "response": "He is proficient in the following languages:\n\n* Python\n* C/C++\n* C#/.NET\n* JavaScript (with React & Streamlit)\n* HTML/CSS"
+      "patterns": ["programming", "languages", "python", "react", "coding languages", "what languages", "programming skills"],
+      "response": "He is proficient in the following languages:\n\n* Python\n* C/C++\n* C#/.NET\n* JavaScript (with React & Streamlit)\n* HTML/CSS",
+      "suggestions": ["Data Science Skills", "Projects", "GitHub"]
     },
     {
       "tag": "skills_datascience",
-      "patterns": ["data science", "pandas", "numpy", "scikit-learn"],
-      "response": "For Data Science, he uses:\n\n* **Libraries**: Pandas, NumPy, Matplotlib, Scikit-learn\n* **Techniques**: Data Preprocessing, Feature Engineering, Model Evaluation"
+      "patterns": ["data science", "pandas", "numpy", "scikit-learn", "data analysis", "data processing"],
+      "response": "For Data Science, he uses:\n\n* **Libraries**: Pandas, NumPy, Matplotlib, Scikit-learn\n* **Techniques**: Data Preprocessing, Feature Engineering, Model Evaluation",
+      "suggestions": ["ML Skills", "See Projects"]
     },
     {
       "tag": "skills_databases",
-      "patterns": ["databases", "sql", "postgresql"],
+      "patterns": ["databases", "sql", "postgresql", "database skills", "oracle", "database management"],
       "response": "Yes, he has experience with PostgreSQL, Oracle, and SQL. What else would you like to know?",
       "suggestions": ["See all Skills", "View Projects", "Contact Him"]
     },
@@ -130,7 +148,7 @@
     },
     {
       "tag": "projects",
-      "patterns": ["projects", "built", "his work", "show me his projects"],
+      "patterns": ["projects", "built", "his work", "show me his projects", "portfolio", "what has he built", "work samples", "demos"],
       "response": "Absolutely! His key projects include a Drone Detection System, a Pneumonia Detection model, an AI Image Downloader, and this portfolio website itself. Which one would you like to explore?",
       "suggestions": ["Drone Detection", "Pneumonia Detection", "This Website"]
     },
@@ -210,7 +228,7 @@
     },
     {
       "tag": "contact",
-      "patterns": ["contact", "email", "reach out", "how to contact him"],
+      "patterns": ["contact", "email", "reach out", "how to contact him", "get in touch", "contact info", "reach him", "phone", "call"],
       "response": "You can contact Rohan directly via email at rohanpurohit14@gmail.com or by phone at +91-8588850024. I can also point you to his social links.",
       "suggestions": ["GitHub", "LinkedIn"]
     },
@@ -220,13 +238,16 @@
         "github",
         "github profile",
         "github link",
-        "what is his github"
+        "what is his github",
+        "code repository",
+        "source code",
+        "git"
       ],
       "response": "Here you go! You can find all his public projects on [GitHub](https://github.com/ARPurohit07)."
     },
     {
       "tag": "linkedin_link",
-      "patterns": ["linkedin", "linkedin profile", "what is his linkedin"],
+      "patterns": ["linkedin", "linkedin profile", "what is his linkedin", "professional network", "connect on linkedin"],
       "response": "Of course. You can connect with him professionally on [LinkedIn](https://linkedin.com/in/rohan-purohit-b65062277)."
     },
     {
@@ -236,8 +257,8 @@
     },
     {
       "tag": "goodbye",
-      "patterns": ["bye", "see you later", "goodbye", "thanks", "thank you"],
-      "response": "You're welcome! I'm glad I could help. Have a great day."
+      "patterns": ["bye", "see you later", "goodbye", "thanks", "thank you", "that's all", "got it", "perfect", "awesome", "great"],
+      "response": "You're welcome! I'm glad I could help. Have a great day! 😊"
     }
   ]
 }
