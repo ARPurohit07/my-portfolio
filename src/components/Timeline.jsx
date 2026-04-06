@@ -37,6 +37,13 @@ const EducationIcon = () => (
 const Timeline = () => {
   const timelineData = [
     {
+      type: "Education",
+      title: "B.E. Computer Science Engineering",
+      date: "2022 - Present",
+      description: "Thapar Institute of Engineering & Technology, Patiala.",
+      icon: <EducationIcon />,
+    },
+    {
       type: "Work",
       title: "Intern - Pan India Consultants Pvt. Ltd.",
       date: "Jun 2024",
@@ -44,7 +51,7 @@ const Timeline = () => {
         "Built a C#/.NET serial port communication tool for industrial hardware and integrated PostgreSQL with applications, improving data access speed by 20%.",
       icon: <WorkIcon />,
     },
-      {
+    {
       type: "Work",
       title: "Intern - Bharat Electronics Limited (BEL)",
       date: "Jun 2025 - Jul 2025",
@@ -52,20 +59,13 @@ const Timeline = () => {
         "Engineered a defence-grade object detection pipeline (YOLO/Faster R-CNN) for real-time drone tracking and reduced false positives by 30% through multi-perspective fusion.",
       icon: <WorkIcon />,
     },
-      {
-        type: "Work",
-        title: "Software Intern - Bayer Pharmasuiticals",
-        date: "Jan 2026 - Present",
-        description:
-          "Working on Bayer Pharmasuiticals' end-to-end clinical imaging application, contributing across the software lifecycle in a collaborative, cross-functional team.",
-        icon: <WorkIcon />,
-      },
     {
-      type: "Education",
-      title: "B.E. Computer Science Engineering",
-      date: "2022 - Present",
-      description: "Thapar Institute of Engineering & Technology, Patiala.",
-      icon: <EducationIcon />,
+      type: "Work",
+      title: "Software Intern - Bayer Pharmasuiticals",
+      date: "Jan 2026 - Present",
+      description:
+        "Working on Bayer Pharmasuiticals' end-to-end clinical imaging application, contributing across the software lifecycle in a collaborative, cross-functional team.",
+      icon: <WorkIcon />,
     },
   ];
 
